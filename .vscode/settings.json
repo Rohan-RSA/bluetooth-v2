@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "*.c": "c",
+        "kernel.h": "c",
+        "kernel_includes.h": "c",
+        "stdio.h": "c",
+        "stddef.h": "c",
+        "soc.h": "c",
+        "types.h": "c"
+    }
+}
