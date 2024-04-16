@@ -25,4 +25,4 @@ empty_file.o: C:/ncs/v2.6.0/zephyr/misc/empty_file.c \
  C:/ncs/v2.6.0/zephyr/dts/common/freq.h \
  C:/ncs/v2.6.0/zephyr/dts/arm/nordic/override.dtsi \
  C:/ncs/v2.6.0/zephyr/boards/arm/nrf52840dk_nrf52840/nrf52840dk_nrf52840-pinctrl.dtsi \
- D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/nrf52840dk_nrf52840.overlay
+ d:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/nrf52840dk_nrf52840.overlay
