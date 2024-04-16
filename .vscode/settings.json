@@ -6,6 +6,7 @@
         "stdio.h": "c",
         "stddef.h": "c",
         "soc.h": "c",
-        "types.h": "c"
+        "types.h": "c",
+        "log.h": "c"
     }
 }

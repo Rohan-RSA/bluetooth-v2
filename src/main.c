@@ -30,9 +30,15 @@
 #include <zephyr/bluetooth/hci.h>
 #include <zephyr/bluetooth/conn.h>
 
+#define LOG_MODULE_NAME main
+LOG_MODULE_REGISTER(LOG_MODULE_NAME);
+
+#define SLEEP_TIME 1000
 
 
 int main(void)
 {
+        LOG_INF("FT_BLE STARTING UP");
+
         return 0;
 }
