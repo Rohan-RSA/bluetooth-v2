@@ -30,15 +30,29 @@
 #include <zephyr/bluetooth/hci.h>
 #include <zephyr/bluetooth/conn.h>
 
-#define LOG_MODULE_NAME main
+#define PRIORITY        7
+#define STACK_SIZE      2048
+#define SLEEP_TIME      1000
+
+#define LOG_MODULE_NAME         main
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
-#define SLEEP_TIME 1000
 
+static void gpio_handler(struct k_work *work);
+static K_WORK_DEFINE(gpio_worker, gpio_handler);
 
 int main(void)
 {
         LOG_INF("FT_BLE STARTING UP");
 
+        k_work_submit(&gpio_worker);
+
+
         return 0;
 }
+
+
+// static void gpio_handler(struct k_work *work)
+// {
+//         LOG_INF("MY gpio work can be done with this handler function!!!");
+// }

@@ -5,4 +5,7 @@ find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(ft_ble)
 
 target_sources(app PRIVATE src/main.c)
-target_sources(app PRIVATE src/tasks/led_task/led_task.c)
+
+add_subdirectory(src/tasks)
+
+include_directories(src/tasks)
