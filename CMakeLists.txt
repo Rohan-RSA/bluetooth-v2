@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.20.0)
+set(BOARD nrf52840dk_nrf52840)
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 
 project(ft_ble)
 
-set(BOARD nrf52840dk_nrf52840)
-
 target_sources(app PRIVATE src/main.c)
-target_sources(app PRIVATE src/tasks/led_task/led_task.c)
+
+add_subdirectory(src/tasks)
+
+include_directories(src/tasks)
