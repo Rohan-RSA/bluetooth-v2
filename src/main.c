@@ -38,21 +38,21 @@
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
 
-static void gpio_handler(struct k_work *work);
-static K_WORK_DEFINE(gpio_worker, gpio_handler);
+void gpio_handler(struct k_work *work);
+void led_handler(struct k_work *work);
+K_WORK_DEFINE(gpio_worker, gpio_handler);
+K_WORK_DEFINE(led_worker, led_handler);
 
 int main(void)
 {
         LOG_INF("FT_BLE STARTING UP");
 
         k_work_submit(&gpio_worker);
+        k_work_submit(&led_worker);
 
 
         return 0;
 }
 
 
-// static void gpio_handler(struct k_work *work)
-// {
-//         LOG_INF("MY gpio work can be done with this handler function!!!");
-// }
+

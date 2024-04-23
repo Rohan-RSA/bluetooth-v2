@@ -2,4 +2,4 @@
 
 #include <zephyr/kernel.h>
 
-void gpio_handler(struct k_work *work);
+void led_handler(struct k_work *work);

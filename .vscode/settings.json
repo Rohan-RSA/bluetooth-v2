@@ -10,6 +10,7 @@
         "log.h": "c",
         "bluetooth.h": "c",
         "gpio_setup_task.h": "c",
-        "conn.h": "c"
+        "conn.h": "c",
+        "led_task.h": "c"
     }
 }
