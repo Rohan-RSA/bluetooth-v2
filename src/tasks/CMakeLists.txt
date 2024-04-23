@@ -1,3 +1,5 @@
 add_subdirectory(led_task)
 add_subdirectory(gpio_setup_task)
 
+include_directories(gpio_setup_task)
+include_directories(led_task)
