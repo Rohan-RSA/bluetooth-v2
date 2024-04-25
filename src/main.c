@@ -9,7 +9,6 @@
  * 
  */
 
-
 #include <soc.h>
 #include <stdio.h>
 #include <stddef.h>
@@ -40,6 +39,7 @@ LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
 void gpio_handler(struct k_work *work);
 void led_handler(struct k_work *work);
+
 K_WORK_DEFINE(gpio_worker, gpio_handler);
 K_WORK_DEFINE(led_worker, led_handler);
 
@@ -49,7 +49,6 @@ int main(void)
 
         k_work_submit(&gpio_worker);
         k_work_submit(&led_worker);
-
 
         return 0;
 }
