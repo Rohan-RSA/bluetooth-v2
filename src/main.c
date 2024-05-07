@@ -29,6 +29,8 @@
 #include <zephyr/bluetooth/hci.h>
 #include <zephyr/bluetooth/conn.h>
 
+#include <led_task/led_task.h>
+
 #define PRIORITY        7
 #define STACK_SIZE      2048
 #define SLEEP_TIME      1000
@@ -47,8 +49,21 @@ int main(void)
 {
         LOG_INF("FT_BLE STARTING UP");
 
+        static struct led_work_s led_work;
+
+        led_work.led_action =  STARTUP;
+
         k_work_submit(&gpio_worker);
-        k_work_submit(&led_worker);
+
+        k_work_init(&led_work.work, led_handler);
+        k_work_submit(&led_work.work);
+
+        led_work.led_action = POWERON;
+        k_work_init(&led_work.work, led_handler);
+        k_work_submit(&led_work.work);
+
+
+        
 
         return 0;
 }
