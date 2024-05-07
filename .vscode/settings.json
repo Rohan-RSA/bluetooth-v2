@@ -11,6 +11,11 @@
         "bluetooth.h": "c",
         "gpio_setup_task.h": "c",
         "conn.h": "c",
-        "led_task.h": "c"
+        "led_task.h": "c",
+        "devicetree.h": "c",
+        "device.h": "c",
+        "toolchain.h": "c",
+        "stdint.h": "c",
+        "gpio.h": "c"
     }
 }

@@ -9,7 +9,6 @@
  * 
  */
 
-
 #include <soc.h>
 #include <stdio.h>
 #include <stddef.h>
@@ -30,6 +29,8 @@
 #include <zephyr/bluetooth/hci.h>
 #include <zephyr/bluetooth/conn.h>
 
+#include <led_task/led_task.h>
+
 #define PRIORITY        7
 #define STACK_SIZE      2048
 #define SLEEP_TIME      1000
@@ -40,6 +41,7 @@ LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
 void gpio_handler(struct k_work *work);
 void led_handler(struct k_work *work);
+
 K_WORK_DEFINE(gpio_worker, gpio_handler);
 K_WORK_DEFINE(led_worker, led_handler);
 
@@ -47,9 +49,21 @@ int main(void)
 {
         LOG_INF("FT_BLE STARTING UP");
 
-        k_work_submit(&gpio_worker);
-        k_work_submit(&led_worker);
+        static struct led_work_s led_work;
 
+        led_work.led_action =  STARTUP;
+
+        k_work_submit(&gpio_worker);
+
+        k_work_init(&led_work.work, led_handler);
+        k_work_submit(&led_work.work);
+
+        led_work.led_action = POWERON;
+        k_work_init(&led_work.work, led_handler);
+        k_work_submit(&led_work.work);
+
+
+        
 
         return 0;
 }

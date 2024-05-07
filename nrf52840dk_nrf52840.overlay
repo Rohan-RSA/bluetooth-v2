@@ -25,23 +25,23 @@
 	leds {
 		compatible = "gpio-leds";
 		led0: led_0 {
-			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 15 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 			label = "Green LED: Power status";
 		};
 		led1: led_1 {
-			gpios = <&gpio0 14 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
-			label = "Orange LED: Bootloader";
+			gpios = <&gpio0 14 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+			label = "Orange LED: TX status";
 		};
 		led2: led_2 {
-			gpios = <&gpio0 13 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
-			label = "Red LED: Connection status";
+			gpios = <&gpio0 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+			label = "Red LED: RX status";
 		};
 		led3: led_3 {
-			gpios = <&gpio0 19 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
-			label = "Yellow LED: RX/TX indicator";
+			gpios = <&gpio0 19 (GPIO_PULL_UP | GPIO_ACTIVE_HIGH)>;
+			label = "Yellow LED: BLE connection status";
 		};
 		led4: led_4 {
-			gpios = < &gpio0 17 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+			gpios = < &gpio0 17 (GPIO_PULL_UP | GPIO_ACTIVE_HIGH)>;
 			label = "Blue LED: BLE status";
 		};
 	};
@@ -69,6 +69,14 @@
 			label = "Rotary switch: 4";
 		};
 	};
+
+	aliases {
+		led0 = &led0;
+		led1 = &led1;
+		led2 = &led2;
+		led3 = &led3;
+		led4 = &led4;
+	};
 };
 
 // New mapping of UART pins for the FT Bluetooth Tag V5.2
@@ -95,3 +103,21 @@
 		};
 	};
 };
+
+&uart0 {
+	current-speed = <921600>;
+};
+
+&i2c0 {
+	status = "disabled";
+};
+
+&qspi {
+	status = "disabled";
+};
+
+&pwm0 {
+	status = "disabled";
+};
+
+

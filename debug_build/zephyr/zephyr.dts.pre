@@ -1202,23 +1202,23 @@ zephyr_udc0: &usbd {
  leds {
   compatible = "gpio-leds";
   led0: led_0 {
-   gpios = <&gpio0 15 (1 << 0)>;
+   gpios = <&gpio0 15 ((1 << 0) | (1 << 4))>;
    label = "Green LED: Power status";
   };
   led1: led_1 {
-   gpios = <&gpio0 14 ((1 << 4) | (1 << 0))>;
-   label = "Orange LED: Bootloader";
+   gpios = <&gpio0 14 ((1 << 0) | (1 << 4))>;
+   label = "Orange LED: TX status";
   };
   led2: led_2 {
-   gpios = <&gpio0 13 ((1 << 4) | (1 << 0))>;
-   label = "Red LED: Connection status";
+   gpios = <&gpio0 13 ((1 << 0) | (1 << 4))>;
+   label = "Red LED: RX status";
   };
   led3: led_3 {
-   gpios = <&gpio0 19 ((1 << 4) | (1 << 0))>;
-   label = "Yellow LED: RX/TX indicator";
+   gpios = <&gpio0 19 ((1 << 4) | (0 << 0))>;
+   label = "Yellow LED: BLE connection status";
   };
   led4: led_4 {
-   gpios = < &gpio0 17 ((1 << 4) | (1 << 0))>;
+   gpios = < &gpio0 17 ((1 << 4) | (0 << 0))>;
    label = "Blue LED: BLE status";
   };
  };
@@ -1246,6 +1246,14 @@ zephyr_udc0: &usbd {
    label = "Rotary switch: 4";
   };
  };
+
+ aliases {
+  led0 = &led0;
+  led1 = &led1;
+  led2 = &led2;
+  led3 = &led3;
+  led4 = &led4;
+ };
 };
 
 
@@ -1271,6 +1279,22 @@ zephyr_udc0: &usbd {
      low-power-enable;
   };
  };
+};
+
+&uart0 {
+ current-speed = <921600>;
+};
+
+&i2c0 {
+ status = "disabled";
+};
+
+&qspi {
+ status = "disabled";
+};
+
+&pwm0 {
+ status = "disabled";
 };
 # 0 "<command-line>" 2
 # 1 "C:/ncs/v2.6.0/zephyr/misc/empty_file.c"
