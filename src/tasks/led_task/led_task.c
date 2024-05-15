@@ -38,23 +38,25 @@ void led_handler(struct k_work *work) {
             k_msleep(100);
         }
 
+        gpio_pin_set_dt(&power_led, 0);
+        gpio_pin_set_dt(&ble_led, 0);
+        gpio_pin_set_dt(&conn_led, 0);
+
         LOG_INF("case STARTUP completed.");
 
         break;
 
     case POWERON:
 
-        LOG_INF("case POWERON started.");
-        gpio_pin_set_dt(&power_led, 0);
-        gpio_pin_set_dt(&ble_led, 0);
-        gpio_pin_set_dt(&conn_led, 0);
-
-        LOG_INF("case POWERON must now toggle at 100ms.");
+        // LOG_INF("case POWERON started.");
         gpio_pin_set_dt(&power_led, 1);
         k_msleep(100);
         gpio_pin_set_dt(&power_led, 0);
-        LOG_INF("case POWERON end point.");
-    
+        // LOG_INF("case POWERON end completed.");
+        
+        break;
+
+
     default:
         break;
     }    

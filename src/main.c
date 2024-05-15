@@ -28,6 +28,8 @@
 #include <zephyr/bluetooth/gap.h>
 #include <zephyr/bluetooth/hci.h>
 #include <zephyr/bluetooth/conn.h>
+#include <zephyr/sys/util_macro.h>
+#include <zephyr/zbus/zbus.h>
 
 #include <led_task/led_task.h>
 
@@ -45,11 +47,20 @@ void led_handler(struct k_work *work);
 K_WORK_DEFINE(gpio_worker, gpio_handler);
 K_WORK_DEFINE(led_worker, led_handler);
 
+static struct led_work_s led_work;
+
+void timer_1s_handler(struct k_timer *timer_1s)
+{
+        led_work.led_action =  POWERON;
+        k_work_submit(&led_work.work);
+}
+
+K_TIMER_DEFINE(timer_1s, timer_1s_handler, NULL);
+
+
 int main(void)
 {
         LOG_INF("FT_BLE STARTING UP");
-
-        static struct led_work_s led_work;
 
         led_work.led_action =  STARTUP;
 
@@ -60,9 +71,9 @@ int main(void)
 
         led_work.led_action = POWERON;
         k_work_init(&led_work.work, led_handler);
-        k_work_submit(&led_work.work);
+        
 
-
+        k_timer_start(&timer_1s, K_SECONDS(2), K_SECONDS(2));
         
 
         return 0;

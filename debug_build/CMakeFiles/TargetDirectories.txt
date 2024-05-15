@@ -161,6 +161,9 @@ C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/subsys/sett
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/subsys/settings/CMakeFiles/rebuild_cache.dir
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/subsys/settings/src/CMakeFiles/edit_cache.dir
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/subsys/settings/src/CMakeFiles/rebuild_cache.dir
+C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/subsys/zbus/CMakeFiles/subsys__zbus.dir
+C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/subsys/zbus/CMakeFiles/edit_cache.dir
+C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/subsys/zbus/CMakeFiles/rebuild_cache.dir
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/CMakeFiles/edit_cache.dir
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/CMakeFiles/rebuild_cache.dir
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/disk/CMakeFiles/edit_cache.dir
