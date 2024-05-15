@@ -1,4 +1,4 @@
-# Install script for directory: C:/ncs/v2.6.0/zephyr/drivers
+# Install script for directory: C:/ncs/v2.6.1/zephyr/drivers
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,71 +39,71 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/drivers/disk/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/disk/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/drivers/interrupt_controller/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/interrupt_controller/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/drivers/misc/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/misc/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/drivers/pcie/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/pcie/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/drivers/usb/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/usb/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/drivers/usb_c/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/usb_c/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/drivers/clock_control/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/clock_control/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/drivers/console/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/console/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/drivers/entropy/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/entropy/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/drivers/flash/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/flash/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/drivers/gpio/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/gpio/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/drivers/pinctrl/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/pinctrl/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/drivers/serial/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/serial/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/drivers/timer/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/drivers/timer/cmake_install.cmake")
 endif()
 

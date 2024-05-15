@@ -1,4 +1,4 @@
-# Install script for directory: C:/ncs/v2.6.0/nrf/drivers
+# Install script for directory: C:/ncs/v2.6.1/nrf/drivers
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,21 +39,21 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/modules/nrf/drivers/mpsl/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/drivers/mpsl/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/modules/nrf/drivers/hw_cc3xx/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/drivers/hw_cc3xx/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/modules/nrf/drivers/entropy/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/drivers/entropy/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/modules/nrf/drivers/serial/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/drivers/serial/cmake_install.cmake")
 endif()
 

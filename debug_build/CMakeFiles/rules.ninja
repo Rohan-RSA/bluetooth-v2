@@ -780,7 +780,7 @@ rule C_STATIC_LIBRARY_LINKER__kernel_
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = C:\ncs\toolchains\cf2149caf2\opt\bin\cmake.exe --regenerate-during-build -SD:\Projects\Farmtrack\Sandbox\Rohan\Projects\ft_ble -BD:\Projects\Farmtrack\Sandbox\Rohan\Projects\ft_ble\debug_build
+  command = C:\ncs\toolchains\cf2149caf2\opt\bin\cmake.exe --regenerate-during-build -SC:\Projects\Gitlab\Farmtrack\BLE_Tag\bluetooth-v2 -BC:\Projects\Gitlab\Farmtrack\BLE_Tag\bluetooth-v2\debug_build
   description = Re-running CMake...
   generator = 1
 

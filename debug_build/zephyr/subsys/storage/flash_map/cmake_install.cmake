@@ -1,4 +1,4 @@
-# Install script for directory: C:/ncs/v2.6.0/zephyr/subsys/storage/flash_map
+# Install script for directory: C:/ncs/v2.6.1/zephyr/subsys/storage/flash_map
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

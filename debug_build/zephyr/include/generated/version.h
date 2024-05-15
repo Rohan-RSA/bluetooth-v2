@@ -19,7 +19,7 @@
 #define KERNEL_VERSION_EXTENDED_STRING  "3.5.99+0"
 #define KERNEL_VERSION_TWEAK_STRING     "3.5.99+0"
 
-#define BUILD_VERSION v3.5.99-ncs1
+#define BUILD_VERSION 3758bcbfa5cd
 
 
 #endif /* _KERNEL_VERSION_H_ */

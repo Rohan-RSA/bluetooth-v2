@@ -1,4 +1,4 @@
-# Install script for directory: D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/src/tasks/gpio_setup_task
+# Install script for directory: C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/src/tasks/gpio_setup_task
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

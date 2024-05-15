@@ -1,4 +1,4 @@
-# Install script for directory: C:/ncs/v2.6.0/zephyr/subsys/settings
+# Install script for directory: C:/ncs/v2.6.1/zephyr/subsys/settings
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,6 +39,6 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Projects/Farmtrack/Sandbox/Rohan/Projects/ft_ble/debug_build/zephyr/subsys/settings/src/cmake_install.cmake")
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/zephyr/subsys/settings/src/cmake_install.cmake")
 endif()
 
