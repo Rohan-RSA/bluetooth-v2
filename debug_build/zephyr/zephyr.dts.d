@@ -25,4 +25,4 @@ empty_file.o: C:/ncs/v2.6.1/zephyr/misc/empty_file.c \
  C:/ncs/v2.6.1/zephyr/dts/common/freq.h \
  C:/ncs/v2.6.1/zephyr/dts/arm/nordic/override.dtsi \
  C:/ncs/v2.6.1/zephyr/boards/arm/nrf52840dk_nrf52840/nrf52840dk_nrf52840-pinctrl.dtsi \
- C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/nrf52840dk_nrf52840.overlay
+ c:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/nrf52840dk_nrf52840.overlay

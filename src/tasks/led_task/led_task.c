@@ -52,7 +52,6 @@ void led_handler(struct k_work *work) {
         gpio_pin_set_dt(&power_led, 1);
         k_msleep(100);
         gpio_pin_set_dt(&power_led, 0);
-        // LOG_INF("case POWERON end completed.");
         
         break;
 
