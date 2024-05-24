@@ -48,9 +48,8 @@ void led_handler(struct k_work *work) {
 
     case POWERON:
 
-        // LOG_INF("case POWERON started.");
         gpio_pin_set_dt(&power_led, 1);
-        k_msleep(100);
+        k_msleep(20);
         gpio_pin_set_dt(&power_led, 0);
         
         break;
