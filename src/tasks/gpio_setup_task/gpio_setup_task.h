@@ -18,7 +18,7 @@ extern const struct gpio_dt_spec ble_led;
 // extern const struct gpio_dt_spec ble_con_led;
 // extern const struct gpio_dt_spec ble_led;
 extern struct gpio_callback pto_cb_data;
-extern const struct gpio_dt_spec pto_sensor_pin = GPIO_DT_SPEC_GET(DT_NODELABEL(button0), gpios);
+extern const struct gpio_dt_spec pto_sensor_pin;
 
 void gpio_handler(struct k_work *work);
 void pto_callback(const struct device *dev, struct gpio_callback *cb, uint32_t pins);
