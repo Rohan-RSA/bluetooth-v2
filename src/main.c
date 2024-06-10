@@ -32,6 +32,7 @@
 #include <zephyr/zbus/zbus.h>
 
 #include <led_task/led_task.h>
+#include <gpio_setup_task/gpio_setup_task.h>
 
 #define PRIORITY        7
 #define STACK_SIZE      2048
@@ -49,10 +50,6 @@ K_WORK_DEFINE(led_worker, led_handler);
 
 static struct led_work_s led_work;
 
-static const struct gpio_dt_spec pto_sensor_pin = GPIO_DT_SPEC_GET(DT_NODELABEL(button0), gpios);
-
-static struct gpio_callback pto_cb_data;
-
 void timer_1s_handler(struct k_timer *timer_1s)
 {
         led_work.led_action =  POWERON;
@@ -60,48 +57,11 @@ void timer_1s_handler(struct k_timer *timer_1s)
 }
 K_TIMER_DEFINE(timer_1s, timer_1s_handler, NULL);
 
-void pto_callback(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
-{
-        LOG_INF("Callback works");
-	// pto_logic_level_flag = gpio_pin_get_dt(&pto_sensor_pin);
-
-	// LOG_INF("PTO input logic level = %d \n", pto_logic_level_flag);
-
-	// pto_has_changed = true;
-}
-
-
 int main(void)
 {
         int ret;
 
         LOG_INF("FT_BLE STARTING UP");
-
-        // Configure pin 16 as an input pin
-        ret = gpio_pin_configure_dt(&pto_sensor_pin, GPIO_INPUT);
-        if (ret != 0)
-        {
-                LOG_ERR("Could not configure pto pin 16 as input.");
-                return;
-        }
-
-        // Configure interrupt on pin 16
-        ret = gpio_pin_interrupt_configure_dt(&pto_sensor_pin, GPIO_INT_EDGE_BOTH);
-        if (ret != 0)
-        {
-                LOG_ERR("Could not configure interrupt on pin 16.");
-                return;
-        }
-
-        // Check is port 0 is ready
-        if (!device_is_ready(pto_sensor_pin.port))
-        {
-                LOG_ERR("GPIO port 0 is not ready");
-                return;
-        }
-
-      	gpio_init_callback(&pto_cb_data, pto_callback, BIT(pto_sensor_pin.pin));
-	gpio_add_callback(pto_sensor_pin.port, &pto_cb_data);
 
         k_work_submit(&gpio_worker);
 
@@ -113,4 +73,3 @@ int main(void)
         
         return 0;
 }
-
