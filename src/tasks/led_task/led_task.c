@@ -9,6 +9,11 @@
 
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
+// struct led_msg{
+//     char startupSequence;
+//     char poweronFlikker;
+// };
+
 
 void led_handler(struct k_work *work) {
 

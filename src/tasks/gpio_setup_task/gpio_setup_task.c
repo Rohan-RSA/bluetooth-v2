@@ -13,7 +13,7 @@ const struct gpio_dt_spec power_led     = GPIO_DT_SPEC_GET(POWER_LED, gpios);
 const struct gpio_dt_spec conn_led      = GPIO_DT_SPEC_GET(CONN_LED, gpios);
 const struct gpio_dt_spec ble_led       = GPIO_DT_SPEC_GET(BLE_LED, gpios);
 const struct gpio_dt_spec pto_sensor_pin = GPIO_DT_SPEC_GET(DT_NODELABEL(button0), gpios);
-struct gpio_callback pto_cb_data; 
+struct gpio_callback pto_cb_data;
 
 void pto_callback(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {

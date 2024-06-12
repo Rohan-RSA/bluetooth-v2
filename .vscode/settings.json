@@ -18,5 +18,8 @@
         "stdint.h": "c",
         "gpio.h": "c"
     },
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "nrf-connect.debugging.bindings": {
+        "${workspaceFolder}/debug_build": "Launch debug_build"
+    }
 }
