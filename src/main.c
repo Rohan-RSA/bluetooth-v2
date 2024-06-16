@@ -56,25 +56,24 @@ struct led_msg{
     int errorAction;
 };
 
-ZBUS_CHAN_DEFINE( led_chan,
-                  struct led_msg,
-                  NULL,
-                  NULL,
-                  ZBUS_OBSERVERS(led_service_listener),
-                  ZBUS_MSG_INIT(0)
+ZBUS_CHAN_DEFINE(led_chan,
+                struct led_msg,
+                NULL,
+                NULL,
+                ZBUS_OBSERVERS(led_service_listener),
+                ZBUS_MSG_INIT(0)
 
 );
 
 void led_callback_listener(struct zbus_channel *chan)
 {
         struct led_msg *msg = zbus_chan_const_msg(chan);
-        // msg = zbus_chan_read(&led_chan, &led_lis_action, K_MSEC(500));
+
         LOG_INF("led_callback_listener is working");
         LOG_INF("led message is: \n\r startupAction = %d\n\r poweronAction = %d",
                  msg->startupAction, msg->poweronAction);
-        // LOG_INF("%d", led_lis_action->startupAction);
-};
 
+};
 ZBUS_LISTENER_DEFINE(led_service_listener, led_callback_listener);
 
 void timer_1s_handler(struct k_timer *timer_1s)
