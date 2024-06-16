@@ -9,7 +9,6 @@
 
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
-
 void led_handler(struct k_work *work) {
 
     /**
