@@ -16,7 +16,9 @@
         "device.h": "c",
         "toolchain.h": "c",
         "stdint.h": "c",
-        "gpio.h": "c"
+        "gpio.h": "c",
+        "zbus.h": "c",
+        "util.h": "c"
     },
     "cmake.configureOnOpen": false,
     "nrf-connect.debugging.bindings": {

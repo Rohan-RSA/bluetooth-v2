@@ -2656,7 +2656,7 @@
 #define DT_N_S_leds_S_led_0_P_gpios_IDX_0_PH DT_N_S_soc_S_gpio_50000000
 #define DT_N_S_leds_S_led_0_P_gpios_IDX_0_VAL_pin 15
 #define DT_N_S_leds_S_led_0_P_gpios_IDX_0_VAL_pin_EXISTS 1
-#define DT_N_S_leds_S_led_0_P_gpios_IDX_0_VAL_flags 17
+#define DT_N_S_leds_S_led_0_P_gpios_IDX_0_VAL_flags 1
 #define DT_N_S_leds_S_led_0_P_gpios_IDX_0_VAL_flags_EXISTS 1
 #define DT_N_S_leds_S_led_0_P_gpios_FOREACH_PROP_ELEM(fn) fn(DT_N_S_leds_S_led_0, gpios, 0)
 #define DT_N_S_leds_S_led_0_P_gpios_FOREACH_PROP_ELEM_SEP(fn, sep) fn(DT_N_S_leds_S_led_0, gpios, 0)
@@ -2740,7 +2740,7 @@
 #define DT_N_S_leds_S_led_1_P_gpios_IDX_0_PH DT_N_S_soc_S_gpio_50000000
 #define DT_N_S_leds_S_led_1_P_gpios_IDX_0_VAL_pin 14
 #define DT_N_S_leds_S_led_1_P_gpios_IDX_0_VAL_pin_EXISTS 1
-#define DT_N_S_leds_S_led_1_P_gpios_IDX_0_VAL_flags 17
+#define DT_N_S_leds_S_led_1_P_gpios_IDX_0_VAL_flags 1
 #define DT_N_S_leds_S_led_1_P_gpios_IDX_0_VAL_flags_EXISTS 1
 #define DT_N_S_leds_S_led_1_P_gpios_FOREACH_PROP_ELEM(fn) fn(DT_N_S_leds_S_led_1, gpios, 0)
 #define DT_N_S_leds_S_led_1_P_gpios_FOREACH_PROP_ELEM_SEP(fn, sep) fn(DT_N_S_leds_S_led_1, gpios, 0)
@@ -2824,7 +2824,7 @@
 #define DT_N_S_leds_S_led_2_P_gpios_IDX_0_PH DT_N_S_soc_S_gpio_50000000
 #define DT_N_S_leds_S_led_2_P_gpios_IDX_0_VAL_pin 13
 #define DT_N_S_leds_S_led_2_P_gpios_IDX_0_VAL_pin_EXISTS 1
-#define DT_N_S_leds_S_led_2_P_gpios_IDX_0_VAL_flags 17
+#define DT_N_S_leds_S_led_2_P_gpios_IDX_0_VAL_flags 1
 #define DT_N_S_leds_S_led_2_P_gpios_IDX_0_VAL_flags_EXISTS 1
 #define DT_N_S_leds_S_led_2_P_gpios_FOREACH_PROP_ELEM(fn) fn(DT_N_S_leds_S_led_2, gpios, 0)
 #define DT_N_S_leds_S_led_2_P_gpios_FOREACH_PROP_ELEM_SEP(fn, sep) fn(DT_N_S_leds_S_led_2, gpios, 0)
@@ -2908,7 +2908,7 @@
 #define DT_N_S_leds_S_led_3_P_gpios_IDX_0_PH DT_N_S_soc_S_gpio_50000000
 #define DT_N_S_leds_S_led_3_P_gpios_IDX_0_VAL_pin 19
 #define DT_N_S_leds_S_led_3_P_gpios_IDX_0_VAL_pin_EXISTS 1
-#define DT_N_S_leds_S_led_3_P_gpios_IDX_0_VAL_flags 16
+#define DT_N_S_leds_S_led_3_P_gpios_IDX_0_VAL_flags 1
 #define DT_N_S_leds_S_led_3_P_gpios_IDX_0_VAL_flags_EXISTS 1
 #define DT_N_S_leds_S_led_3_P_gpios_FOREACH_PROP_ELEM(fn) fn(DT_N_S_leds_S_led_3, gpios, 0)
 #define DT_N_S_leds_S_led_3_P_gpios_FOREACH_PROP_ELEM_SEP(fn, sep) fn(DT_N_S_leds_S_led_3, gpios, 0)
@@ -2992,7 +2992,7 @@
 #define DT_N_S_leds_S_led_4_P_gpios_IDX_0_PH DT_N_S_soc_S_gpio_50000000
 #define DT_N_S_leds_S_led_4_P_gpios_IDX_0_VAL_pin 17
 #define DT_N_S_leds_S_led_4_P_gpios_IDX_0_VAL_pin_EXISTS 1
-#define DT_N_S_leds_S_led_4_P_gpios_IDX_0_VAL_flags 16
+#define DT_N_S_leds_S_led_4_P_gpios_IDX_0_VAL_flags 1
 #define DT_N_S_leds_S_led_4_P_gpios_IDX_0_VAL_flags_EXISTS 1
 #define DT_N_S_leds_S_led_4_P_gpios_FOREACH_PROP_ELEM(fn) fn(DT_N_S_leds_S_led_4, gpios, 0)
 #define DT_N_S_leds_S_led_4_P_gpios_FOREACH_PROP_ELEM_SEP(fn, sep) fn(DT_N_S_leds_S_led_4, gpios, 0)

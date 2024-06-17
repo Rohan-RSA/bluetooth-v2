@@ -42,67 +42,81 @@
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
 void gpio_handler(struct k_work *work);
-void led_handler(struct k_work *work);
+
+// void led_handler(struct k_work *work);
 
 K_WORK_DEFINE(gpio_worker, gpio_handler);
-K_WORK_DEFINE(led_worker, led_handler);
+// K_WORK_DEFINE(led_worker, led_handler);
 
-static struct led_work_s led_work;
+// static struct led_work_s led_work;
 
-struct led_msg{
-    int startupAction;
-    int poweronAction;
-    int advertisingAction;
-    int errorAction;
+struct led_msg led_task = {
+        .startupAction = 1,
+        .poweronAction = 0,
+        .advertisingAction = 0,
+        .errorAction = 0
 };
+
+
+// static struct wq_info wq_led_handler2 = {.handle = 2};
+// static struct wq_info wq_led_handler3 = {.handle = 3};
 
 ZBUS_CHAN_DEFINE(led_chan,
                 struct led_msg,
                 NULL,
                 NULL,
-                ZBUS_OBSERVERS(led_service_listener),
+                ZBUS_OBSERVERS(delay_handler1_lis),
                 ZBUS_MSG_INIT(0)
-
 );
+// led_service_listener, 
 
-void led_callback_listener(struct zbus_channel *chan)
+static void wq_dh_cb(struct k_work *item)
 {
-        struct led_msg *msg = zbus_chan_const_msg(chan);
+    struct led_msg msg;
+    struct wq_info *led = CONTAINER_OF(item, struct wq_info, work);
 
-        LOG_INF("led_callback_listener is working");
-        LOG_INF("led message is: \n\r startupAction = %d\n\r poweronAction = %d",
-                 msg->startupAction, msg->poweronAction);
+    zbus_chan_read(led->chan, &msg, K_MSEC(200));
 
-};
-ZBUS_LISTENER_DEFINE(led_service_listener, led_callback_listener);
+    LOG_INF("LED msg processed by WORK QUEUE handler dh%u: startup action = %d, power on action = %d,advertising action = %d, error action = %d",
+    led->handle, msg.startupAction, msg.poweronAction, msg.advertisingAction, msg.errorAction);
+}
+
+static void dh1_cb(const struct zbus_channel *chan)
+{
+        wq_led_handler1.chan = chan;
+
+        k_work_submit(&wq_led_handler1.work);
+}
+
+ZBUS_LISTENER_DEFINE(delay_handler1_lis, dh1_cb);
 
 void timer_1s_handler(struct k_timer *timer_1s)
 {
-        led_work.led_action =  POWERON;
-        k_work_submit(&led_work.work);
+        // led_task.poweronAction = 1;
+
+        // zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
+        // led_work.led_task =  POWERON;
+        // k_work_submit(&led_work.work);
 }
 K_TIMER_DEFINE(timer_1s, timer_1s_handler, NULL);
 
 int main(void)
 {
-        int ret;
-
-        struct led_msg led_lis_action = {
-                .startupAction = 1,
-                .poweronAction = 0,
-                .advertisingAction = 0,
-                .errorAction = 0
-        };
-
         LOG_INF("FT_BLE STARTING UP");
-        zbus_chan_pub(&led_chan, &led_lis_action, K_SECONDS(1));
 
-        // k_work_submit(&gpio_worker);
-        // led_work.led_action =  STARTUP;
+        k_work_submit(&gpio_worker);
+
+        // Send message to do the start-up LED sequence (this is synchronous and blocking)
+        // zbus_chan_pub(&led_chan, &led_task, K_SECONDS(1));
+        
+        k_work_init(&wq_led_handler1.work, wq_dh_cb);
+        
+        zbus_chan_pub(&led_chan, &led_task, K_MSEC(200));
+        // led_work.led_task =  STARTUP;
         // k_work_init(&led_work.work, led_handler);
         // k_work_submit(&led_work.work);
 
-        // k_timer_start(&timer_1s, K_SECONDS(2), K_SECONDS(2));
+        k_timer_start(&timer_1s, K_SECONDS(2), K_SECONDS(2));
         
         return 0;
 }
