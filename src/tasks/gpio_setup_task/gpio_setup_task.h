@@ -21,6 +21,7 @@ extern struct gpio_callback pto_cb_data;
 extern const struct gpio_dt_spec pto_sensor_pin;
 
 void gpio_handler(struct k_work *work);
+
 void pto_callback(const struct device *dev, struct gpio_callback *cb, uint32_t pins);
 
 #endif /* GPIO_SETUP_TASK_H */
