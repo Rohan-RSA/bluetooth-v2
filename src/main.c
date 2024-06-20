@@ -44,7 +44,6 @@
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
 void gpio_handler(struct k_work *work);
-
 // void led_handler(struct k_work *work);
 
 K_WORK_DEFINE(gpio_worker, gpio_handler);
@@ -59,7 +58,6 @@ struct led_msg led_task = {
         .errorAction = 0
 };
 
-
 // static struct wq_info wq_led_handler2 = {.handle = 2};
 // static struct wq_info wq_led_handler3 = {.handle = 3};
 
@@ -72,16 +70,38 @@ ZBUS_CHAN_DEFINE(led_chan,
 );
 // led_service_listener, 
 
+// This is the sys work queue async callback/handler function
 static void wq_dh_cb(struct k_work *item)
 {
-    struct led_msg msg;
-    struct wq_info *led = CONTAINER_OF(item, struct wq_info, work);
+        struct led_msg msg;
+        struct wq_info *led = CONTAINER_OF(item, struct wq_info, work);
 
-    zbus_chan_read(led->chan, &msg, K_MSEC(200));
+        zbus_chan_read(led->chan, &msg, K_MSEC(200));
 
-    LOG_INF("LED msg processed by WORK QUEUE handler dh%u: startup action = %d, power on action = %d,advertising action = %d, error action = %d",
-    led->handle, msg.startupAction, msg.poweronAction, msg.advertisingAction, msg.errorAction);
-}
+        LOG_INF("LED msg processed by WORK QUEUE handler dh%u: startup action = %d, power on action = %d,advertising action = %d, error action = %d",
+        led->handle, msg.startupAction, msg.poweronAction, msg.advertisingAction, msg.errorAction);
+
+        if (msg.startupAction == 1)
+        {
+                gpio_pin_toggle_dt(&power_led);
+                k_msleep(100);
+                gpio_pin_toggle_dt(&conn_led);
+                k_msleep(100);
+                gpio_pin_toggle_dt(&ble_led);
+                k_msleep(100);
+                gpio_pin_toggle_dt(&ble_led);
+                k_msleep(100);
+                gpio_pin_toggle_dt(&conn_led);
+                k_msleep(100);
+                gpio_pin_toggle_dt(&power_led);
+                k_msleep(100);
+        }
+        gpio_pin_set_dt(&power_led, 0);
+        gpio_pin_set_dt(&ble_led, 0);
+        gpio_pin_set_dt(&conn_led, 0);   
+        led_task.startupAction = 0;     
+
+};
 
 static void dh1_cb(const struct zbus_channel *chan)
 {
@@ -94,8 +114,10 @@ ZBUS_LISTENER_DEFINE(delay_handler1_lis, dh1_cb);
 
 void timer_1s_handler(struct k_timer *timer_1s)
 {
-        // led_task.poweronAction = 1;
+        led_task.poweronAction = 1;
+        zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
 
+        // led_task.poweronAction = 1;
         // zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
         // led_work.led_task =  POWERON;
         // k_work_submit(&led_work.work);
@@ -114,6 +136,7 @@ int main(void)
         k_work_init(&wq_led_handler1.work, wq_dh_cb);
         
         zbus_chan_pub(&led_chan, &led_task, K_MSEC(200));
+
         // led_work.led_task =  STARTUP;
         // k_work_init(&led_work.work, led_handler);
         // k_work_submit(&led_work.work);
