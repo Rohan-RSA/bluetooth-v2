@@ -17,6 +17,7 @@
 #include <zephyr/device.h>
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/gpio.h>
+// #include <zephyr/drivers/led.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/pm/pm.h>
 #include <zephyr/pm/device.h>
@@ -53,7 +54,7 @@ K_WORK_DEFINE(gpio_worker, gpio_handler);
 
 struct led_msg led_task = {
         .startupAction = 1,
-        .poweronAction = 0,
+        .poweronAction = 1,
         .advertisingAction = 0,
         .errorAction = 0
 };
@@ -111,7 +112,6 @@ static void wq_dh_cb(struct k_work *item)
                 k_msleep(20);
                 gpio_pin_set_dt(&power_led, 0);
         }
-        
 
 };
 
@@ -120,14 +120,14 @@ static void dh1_cb(const struct zbus_channel *chan)
         wq_led_handler1.chan = chan;
         k_work_submit(&wq_led_handler1.work);
 }
-
 ZBUS_LISTENER_DEFINE(delay_handler1_lis, dh1_cb);
 
 void timer_1s_handler(struct k_timer *timer_1s)
 {
-        led_task.poweronAction = 1;
+        // led_task.startupAction = 0;
         // zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
-
+        // k_work_submit(&wq_led_handler1.work);
+        
         // led_task.poweronAction = 1;
         // led_work.led_task =  POWERON;
         // k_work_submit(&led_work.work);
@@ -138,6 +138,8 @@ int main(void)
 {
         LOG_INF("FT_BLE STARTING UP");
 
+        int ret;
+
         k_work_submit(&gpio_worker);
 
         // Send message to do the start-up LED sequence (this is synchronous and blocking)
@@ -145,7 +147,12 @@ int main(void)
         
         k_work_init(&wq_led_handler1.work, wq_dh_cb);
         
-        zbus_chan_pub(&led_chan, &led_task, K_MSEC(200));
+        ret = zbus_chan_pub(&led_chan, &led_task, K_MSEC(200));
+        if (ret != 0)
+        {
+                LOG_ERR("Could not publish to led channel");
+        }
+        
 
         // led_work.led_task =  STARTUP;
         // k_work_init(&led_work.work, led_handler);
