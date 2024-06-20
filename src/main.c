@@ -83,30 +83,41 @@ static void wq_dh_cb(struct k_work *item)
 
         if (msg.startupAction == 1)
         {
-                gpio_pin_toggle_dt(&power_led);
-                k_msleep(100);
-                gpio_pin_toggle_dt(&conn_led);
-                k_msleep(100);
-                gpio_pin_toggle_dt(&ble_led);
-                k_msleep(100);
-                gpio_pin_toggle_dt(&ble_led);
-                k_msleep(100);
-                gpio_pin_toggle_dt(&conn_led);
-                k_msleep(100);
-                gpio_pin_toggle_dt(&power_led);
-                k_msleep(100);
+                for (size_t i = 0; i < 3; i++)
+                {
+                        gpio_pin_toggle_dt(&power_led);
+                        k_msleep(100);
+                        gpio_pin_toggle_dt(&conn_led);
+                        k_msleep(100);
+                        gpio_pin_toggle_dt(&ble_led);
+                        k_msleep(100);
+                        gpio_pin_toggle_dt(&ble_led);
+                        k_msleep(100);
+                        gpio_pin_toggle_dt(&conn_led);
+                        k_msleep(100);
+                        gpio_pin_toggle_dt(&power_led);
+                        k_msleep(100);
+                }
+
+                gpio_pin_set_dt(&power_led, 0);
+                gpio_pin_set_dt(&ble_led, 0);
+                gpio_pin_set_dt(&conn_led, 0); 
+                led_task.startupAction = 0; 
         }
-        gpio_pin_set_dt(&power_led, 0);
-        gpio_pin_set_dt(&ble_led, 0);
-        gpio_pin_set_dt(&conn_led, 0);   
-        led_task.startupAction = 0;     
+        if (msg.poweronAction == 1)
+        {
+                // Here I would like to use the LED API to continually blink this led forever
+                gpio_pin_set_dt(&power_led, 1);
+                k_msleep(20);
+                gpio_pin_set_dt(&power_led, 0);
+        }
+        
 
 };
 
 static void dh1_cb(const struct zbus_channel *chan)
 {
         wq_led_handler1.chan = chan;
-
         k_work_submit(&wq_led_handler1.work);
 }
 
@@ -115,10 +126,9 @@ ZBUS_LISTENER_DEFINE(delay_handler1_lis, dh1_cb);
 void timer_1s_handler(struct k_timer *timer_1s)
 {
         led_task.poweronAction = 1;
-        zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
+        // zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
 
         // led_task.poweronAction = 1;
-        // zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
         // led_work.led_task =  POWERON;
         // k_work_submit(&led_work.work);
 }
