@@ -20,28 +20,6 @@
 extern "C" {
 #endif
 
-extern uint32_t z_impl_sys_rand32_get(void);
-
-__pinned_func
-static inline uint32_t sys_rand32_get(void)
-{
-#ifdef CONFIG_USERSPACE
-	if (z_syscall_trap()) {
-		return (uint32_t) arch_syscall_invoke0(K_SYSCALL_SYS_RAND32_GET);
-	}
-#endif
-	compiler_barrier();
-	return z_impl_sys_rand32_get();
-}
-
-#if defined(CONFIG_TRACING_SYSCALL)
-#ifndef DISABLE_SYSCALL_TRACING
-
-#define sys_rand32_get() ({ 	uint32_t syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_SYS_RAND32_GET, sys_rand32_get); 	syscall__retval = sys_rand32_get(); 	sys_port_trace_syscall_exit(K_SYSCALL_SYS_RAND32_GET, sys_rand32_get, syscall__retval); 	syscall__retval; })
-#endif
-#endif
-
-
 extern void z_impl_sys_rand_get(void * dst, size_t len);
 
 __pinned_func

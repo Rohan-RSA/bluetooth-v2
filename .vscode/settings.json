@@ -23,5 +23,6 @@
     "cmake.configureOnOpen": false,
     "nrf-connect.debugging.bindings": {
         "${workspaceFolder}/debug_build": "Launch debug_build"
-    }
+    },
+    "nrf-connect.topdir": "${nrf-connect.sdk:2.7.0-rc2}"
 }

@@ -1,6 +1,7 @@
 # Generated file that can be used to preload variant images
 set(BOARD "nrf52840dk_nrf52840" CACHE INTERNAL "NCS child image controlled")
 set(CACHED_CONF_FILE "c:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/prj.conf" CACHE INTERNAL "NCS child image controlled")
+set(CACHED_CONF_FILE "c:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/prj.conf" CACHE INTERNAL "NCS child image controlled")
 set(CLI_CONFIG_CORTEX_M_DEBUG_MONITOR_HOOK "y" CACHE INTERNAL "NCS child image controlled")
 set(CLI_CONFIG_DEBUG_OPTIMIZATIONS "y" CACHE INTERNAL "NCS child image controlled")
 set(CLI_CONFIG_DEBUG_THREAD_INFO "y" CACHE INTERNAL "NCS child image controlled")

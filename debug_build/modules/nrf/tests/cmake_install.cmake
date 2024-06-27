@@ -1,4 +1,4 @@
-# Install script for directory: C:/ncs/v2.6.1/nrf/tests
+# Install script for directory: C:/ncs/v2.7.0-rc2/nrf/tests
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

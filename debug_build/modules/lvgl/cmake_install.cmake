@@ -1,4 +1,4 @@
-# Install script for directory: C:/ncs/v2.6.1/zephyr/modules/lvgl
+# Install script for directory: C:/ncs/v2.7.0-rc2/zephyr/modules/lvgl
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

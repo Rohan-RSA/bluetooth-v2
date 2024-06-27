@@ -8,66 +8,65 @@ ELF Header:
   Type:                              EXEC (Executable file)
   Machine:                           ARM
   Version:                           0x1
-  Entry point address:               0x1b2fd
+  Entry point address:               0x1a44d
   Start of program headers:          52 (bytes into file)
-  Start of section headers:          3877264 (bytes into file)
+  Start of section headers:          4033664 (bytes into file)
   Flags:                             0x5000200, Version5 EABI, soft-float ABI
   Size of this header:               52 (bytes)
   Size of program headers:           32 (bytes)
   Number of program headers:         6
   Size of section headers:           40 (bytes)
-  Number of section headers:         47
-  Section header string table index: 46
+  Number of section headers:         46
+  Section header string table index: 45
 
 Section Headers:
   [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
   [ 0]                   NULL            00000000 000000 000000 00      0   0  0
   [ 1] rom_start         PROGBITS        00000000 000100 000100 00 WAX  0   0  4
-  [ 2] text              PROGBITS        00000100 000200 0362a8 00  AX  0   0  4
-  [ 3] .ARM.exidx        ARM_EXIDX       000363a8 0364a8 000008 00  AL  2   0  4
-  [ 4] initlevel         PROGBITS        000363b0 0364b0 0000d8 00   A  0   0  4
-  [ 5] device_area       PROGBITS        00036488 036588 0000d8 00   A  0   0  4
-  [ 6] sw_isr_table      PROGBITS        00036560 036660 000180 00  WA  0   0  4
-  [ 7] bt_l2cap_fix[...] PROGBITS        000366e0 0367e0 000024 00   A  0   0  4
-  [ 8] bt_gatt_serv[...] PROGBITS        00036704 036804 000010 00   A  0   0  4
-  [ 9] log_const_area    PROGBITS        00036714 036814 000120 00   A  0   0  4
-  [10] log_backend_area  PROGBITS        00036834 036934 000010 00   A  0   0  4
-  [11] zephyr_dbg_info   PROGBITS        00036844 036944 000044 00   A  0   0  4
-  [12] settings_han[...] PROGBITS        00036888 036988 000064 00   A  0   0  4
-  [13] zbus_channel_area PROGBITS        000368ec 0369ec 000014 00   A  0   0  4
-  [14] zbus_channel[...] PROGBITS        00036900 036a00 000008 00   A  0   0  4
-  [15] tbss              NOBITS          00036908 036a08 000008 00 WAT  0   0  4
-  [16] rodata            PROGBITS        00036910 036a10 0065a0 00   A  0   0 16
-  [17] .ramfunc          PROGBITS        20000000 03da95 000000 00   W  0   0  1
-  [18] datas             PROGBITS        20000000 03cfb0 0007b4 00  WA  0   0  8
-  [19] device_states     PROGBITS        200007b4 03d764 000012 00  WA  0   0  1
-  [20] pm_device_sl[...] PROGBITS        200007c8 03d778 000030 00   A  0   0  4
-  [21] log_mpsc_pbu[...] PROGBITS        200007f8 03d7a8 000044 00  WA  0   0  4
-  [22] log_msg_ptr_area  PROGBITS        2000083c 03d7ec 000004 00  WA  0   0  4
-  [23] k_timer_area      PROGBITS        20000840 03d7f0 000038 00  WA  0   0  8
-  [24] k_mem_slab_area   PROGBITS        20000878 03d828 000060 00  WA  0   0  4
-  [25] k_mutex_area      PROGBITS        200008d8 03d888 000078 00  WA  0   0  4
-  [26] k_sem_area        PROGBITS        20000950 03d900 000018 00  WA  0   0  4
-  [27] k_fifo_area       PROGBITS        20000968 03d918 000038 00  WA  0   0  4
-  [28] net_buf_pool_area PROGBITS        200009a0 03d950 000138 00  WA  0   0  4
-  [29] zbus_observe[...] PROGBITS        20000ad8 03da88 000008 00  WA  0   0  4
-  [30] zbus_channel[...] PROGBITS        20000ae0 03da90 000001 00  WA  0   0  1
-  [31] bss               NOBITS          20000ae8 03daa8 0042af 00  WA  0   0  8
-  [32] noinit            NOBITS          20004dc0 03daa8 0039ec 00  WA  0   0 64
-  [33] .comment          PROGBITS        00000000 03da95 000060 01  MS  0   0  1
-  [34] .debug_aranges    PROGBITS        00000000 03daf8 0048f0 00      0   0  8
-  [35] .debug_info       PROGBITS        00000000 0423e8 1e909c 00      0   0  1
-  [36] .debug_abbrev     PROGBITS        00000000 22b484 01de7d 00      0   0  1
-  [37] .debug_line       PROGBITS        00000000 249301 067db1 00      0   0  1
-  [38] .debug_frame      PROGBITS        00000000 2b10b4 00d2ac 00      0   0  4
-  [39] .debug_str        PROGBITS        00000000 2be360 0223f8 01  MS  0   0  1
-  [40] .debug_loc        PROGBITS        00000000 2e0758 0862bb 00      0   0  1
-  [41] .debug_ranges     PROGBITS        00000000 366a18 00d128 00      0   0  8
-  [42] .ARM.attributes   ARM_ATTRIBUTES  00000000 373b40 000032 00      0   0  1
-  [43] .last_section     PROGBITS        0003d991 03da91 000004 00   A  0   0  1
-  [44] .symtab           SYMTAB          00000000 373b74 023fd0 10     45 6538  4
-  [45] .strtab           STRTAB          00000000 397b44 01abc0 00      0   0  1
-  [46] .shstrtab         STRTAB          00000000 3b2704 000289 00      0   0  1
+  [ 2] text              PROGBITS        00000100 000200 0356fc 00  AX  0   0  4
+  [ 3] .ARM.exidx        ARM_EXIDX       000357fc 0358fc 000008 00  AL  2   0  4
+  [ 4] initlevel         PROGBITS        00035804 035904 0000d8 00   A  0   0  4
+  [ 5] device_area       PROGBITS        000358dc 0359dc 0000d8 00   A  0   0  4
+  [ 6] sw_isr_table      PROGBITS        000359b4 035ab4 000180 00  WA  0   0  4
+  [ 7] bt_l2cap_fix[...] PROGBITS        00035b34 035c34 000024 00   A  0   0  4
+  [ 8] bt_gatt_serv[...] PROGBITS        00035b58 035c58 000010 00   A  0   0  4
+  [ 9] log_const_area    PROGBITS        00035b68 035c68 000118 00   A  0   0  4
+  [10] log_backend_area  PROGBITS        00035c80 035d80 000010 00   A  0   0  4
+  [11] zephyr_dbg_info   PROGBITS        00035c90 035d90 000044 00   A  0   0  4
+  [12] settings_han[...] PROGBITS        00035cd4 035dd4 000064 00   A  0   0  4
+  [13] zbus_channel_area PROGBITS        00035d38 035e38 000014 00   A  0   0  4
+  [14] zbus_observe[...] PROGBITS        00035d4c 035e4c 00000c 00  WA  0   0  4
+  [15] zbus_channel[...] PROGBITS        00035d58 035e58 000008 00   A  0   0  4
+  [16] tbss              NOBITS          00035d60 035e60 000008 00 WAT  0   0  4
+  [17] rodata            PROGBITS        00035d60 035e60 0066a8 00   A  0   0 16
+  [18] .ramfunc          PROGBITS        20000000 03d08d 000000 00   W  0   0  1
+  [19] datas             PROGBITS        20000000 03c508 000870 00  WA  0   0  8
+  [20] device_states     PROGBITS        20000870 03cd78 000012 00  WA  0   0  1
+  [21] log_mpsc_pbu[...] PROGBITS        20000884 03cd8c 000044 00  WA  0   0  4
+  [22] log_msg_ptr_area  PROGBITS        200008c8 03cdd0 000004 00  WA  0   0  4
+  [23] k_timer_area      PROGBITS        200008d0 03cdd8 000038 00  WA  0   0  8
+  [24] k_mem_slab_area   PROGBITS        20000908 03ce10 000060 00  WA  0   0  4
+  [25] k_mutex_area      PROGBITS        20000968 03ce70 000078 00  WA  0   0  4
+  [26] k_sem_area        PROGBITS        200009e0 03cee8 000018 00  WA  0   0  4
+  [27] k_fifo_area       PROGBITS        200009f8 03cf00 00001c 00  WA  0   0  4
+  [28] net_buf_pool_area PROGBITS        20000a14 03cf1c 00016c 00  WA  0   0  4
+  [29] zbus_channel[...] PROGBITS        20000b80 03d088 000001 00  WA  0   0  1
+  [30] bss               NOBITS          20000b88 03d0c8 0041d7 00  WA  0   0  8
+  [31] noinit            NOBITS          20004d80 03d0c8 003688 00  WA  0   0 64
+  [32] .comment          PROGBITS        00000000 03d08d 000060 01  MS  0   0  1
+  [33] .debug_aranges    PROGBITS        00000000 03d0f0 004978 00      0   0  8
+  [34] .debug_info       PROGBITS        00000000 041a68 1fe83c 00      0   0  1
+  [35] .debug_abbrev     PROGBITS        00000000 2402a4 01f670 00      0   0  1
+  [36] .debug_line       PROGBITS        00000000 25f914 0705e1 00      0   0  1
+  [37] .debug_frame      PROGBITS        00000000 2cfef8 00d5a0 00      0   0  4
+  [38] .debug_str        PROGBITS        00000000 2dd498 022c4c 01  MS  0   0  1
+  [39] .debug_loc        PROGBITS        00000000 3000e4 08c190 00      0   0  1
+  [40] .debug_ranges     PROGBITS        00000000 38c278 00db88 00      0   0  8
+  [41] .ARM.attributes   ARM_ATTRIBUTES  00000000 399e00 000032 00      0   0  1
+  [42] .last_section     PROGBITS        0003cf89 03d089 000004 00   A  0   0  1
+  [43] .symtab           SYMTAB          00000000 399e34 024100 10     44 6574  4
+  [44] .strtab           STRTAB          00000000 3bdf34 01aad5 00      0   0  1
+  [45] .shstrtab         STRTAB          00000000 3d8a09 000274 00      0   0  1
 Key to Flags:
   W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
   L (link order), O (extra OS processing required), G (group), T (TLS),
@@ -76,18 +75,18 @@ Key to Flags:
 
 Program Headers:
   Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-  EXIDX          0x0364a8 0x000363a8 0x000363a8 0x00008 0x00008 R   0x4
-  LOAD           0x000100 0x00000000 0x00000000 0x3ceb0 0x3ceb0 RWE 0x10
-  LOAD           0x03cfb0 0x20000000 0x0003ceb0 0x00ae1 0x00ae1 RW  0x8
-  LOAD           0x03da91 0x0003d991 0x0003d991 0x00004 0x00004 R   0x1
-  LOAD           0x000000 0x20000ae8 0x20000ae8 0x00000 0x07cc4 RW  0x40
-  TLS            0x036a08 0x00036908 0x00036908 0x00000 0x00008 R   0x4
+  EXIDX          0x0358fc 0x000357fc 0x000357fc 0x00008 0x00008 R   0x4
+  LOAD           0x000100 0x00000000 0x00000000 0x3c408 0x3c408 RWE 0x10
+  LOAD           0x03c508 0x20000000 0x0003c408 0x00b81 0x00b81 RW  0x8
+  LOAD           0x03d089 0x0003cf89 0x0003cf89 0x00004 0x00004 R   0x1
+  LOAD           0x000000 0x20000b88 0x20000b88 0x00000 0x07880 RW  0x40
+  TLS            0x035e60 0x00035d60 0x00035d60 0x00000 0x00008 R   0x4
 
  Section to Segment mapping:
   Segment Sections...
    00     .ARM.exidx 
-   01     rom_start text .ARM.exidx initlevel device_area sw_isr_table bt_l2cap_fixed_chan_area bt_gatt_service_static_area log_const_area log_backend_area zephyr_dbg_info settings_handler_static_area zbus_channel_area zbus_channel_observation_area rodata 
-   02     datas device_states pm_device_slots_area log_mpsc_pbuf_area log_msg_ptr_area k_timer_area k_mem_slab_area k_mutex_area k_sem_area k_fifo_area net_buf_pool_area zbus_observer_area zbus_channel_observation_mask_area 
+   01     rom_start text .ARM.exidx initlevel device_area sw_isr_table bt_l2cap_fixed_chan_area bt_gatt_service_static_area log_const_area log_backend_area zephyr_dbg_info settings_handler_static_area zbus_channel_area zbus_observer_area zbus_channel_observation_area rodata 
+   02     datas device_states log_mpsc_pbuf_area log_msg_ptr_area k_timer_area k_mem_slab_area k_mutex_area k_sem_area k_fifo_area net_buf_pool_area zbus_channel_observation_mask_area 
    03     .last_section 
    04     bss noinit 
    05     tbss 

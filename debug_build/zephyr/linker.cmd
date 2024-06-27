@@ -2,7 +2,7 @@
 _region_min_align = 32;
 MEMORY
     {
-    FLASH (rx) : ORIGIN = (0x0 + 0x0), LENGTH = (1024 * 1024 - 0x0 - 0)
+    FLASH (rx) : ORIGIN = (0x0 + 0x0), LENGTH = (1024 * 1024 - 0x0 - 0x0)
     RAM (wx) : ORIGIN = 0x20000000, LENGTH = (256 * 1K)
    
     IDT_LIST (wx) : ORIGIN = 0xFFFF7FFF, LENGTH = 32K
@@ -87,6 +87,9 @@ KEEP(*(.gnu.linkonce.irq_vector_table*))
   __init_APPLICATION_start = .; KEEP(*(SORT(.z_init_APPLICATION?_*))); KEEP(*(SORT(.z_init_APPLICATION??_*)));
   __init_SMP_start = .; KEEP(*(SORT(.z_init_SMP?_*))); KEEP(*(SORT(.z_init_SMP??_*)));
   __init_end = .;
+  __deferred_init_list_start = .;
+  KEEP(*(.z_deferred_init))
+  __deferred_init_list_end = .;
  } > FLASH
  device_area : SUBALIGN(4) { _device_list_start = .; KEEP(*(SORT(._device.static.*_?_*))); KEEP(*(SORT(._device.static.*_??_*))); _device_list_end = .; } > FLASH
  sw_isr_table :
@@ -134,6 +137,7 @@ ztest :
  } > FLASH
  settings_handler_static_area : SUBALIGN(4) { _settings_handler_static_list_start = .; KEEP(*(SORT_BY_NAME(._settings_handler_static.static.*))); _settings_handler_static_list_end = .; } > FLASH
  zbus_channel_area : SUBALIGN(4) { _zbus_channel_list_start = .; KEEP(*(SORT_BY_NAME(._zbus_channel.static.*))); _zbus_channel_list_end = .; } > FLASH
+ zbus_observer_area : SUBALIGN(4) { _zbus_observer_list_start = .; KEEP(*(SORT_BY_NAME(._zbus_observer.static.*))); _zbus_observer_list_end = .; } > FLASH
  zbus_channel_observation_area : SUBALIGN(4) { _zbus_channel_observation_list_start = .; KEEP(*(SORT_BY_NAME(._zbus_channel_observation.static.*))); _zbus_channel_observation_list_end = .; } > FLASH
  symbol_to_keep : ALIGN_WITH_INPUT
  {
@@ -155,13 +159,13 @@ ztest :
   *(.tbss .tbss.* .gnu.linkonce.tb.* .tcommon);
  } > FLASH
  PROVIDE(__tdata_start = LOADADDR(tdata));
- PROVIDE(__tdata_size = SIZEOF(tdata));
- PROVIDE(__tdata_end = __tdata_start + __tdata_size);
  PROVIDE(__tdata_align = ALIGNOF(tdata));
- PROVIDE(__tbss_start = ADDR(tbss));
- PROVIDE(__tbss_size = SIZEOF(tbss));
- PROVIDE(__tbss_end = __tbss_start + __tbss_size);
+ PROVIDE(__tdata_size = (SIZEOF(tdata) + __tdata_align - 1) & ~(__tdata_align - 1));
+ PROVIDE(__tdata_end = __tdata_start + __tdata_size);
  PROVIDE(__tbss_align = ALIGNOF(tbss));
+ PROVIDE(__tbss_start = ADDR(tbss));
+ PROVIDE(__tbss_size = (SIZEOF(tbss) + __tbss_align - 1) & ~(__tbss_align - 1));
+ PROVIDE(__tbss_end = __tbss_start + __tbss_size);
  PROVIDE(__tls_start = __tdata_start);
  PROVIDE(__tls_end = __tbss_end);
  PROVIDE(__tls_size = __tbss_end - __tdata_start);
@@ -237,7 +241,6 @@ __ramfunc_load_start = LOADADDR(.ramfunc);
  k_condvar_area : ALIGN_WITH_INPUT SUBALIGN(4) { _k_condvar_list_start = .; *(SORT_BY_NAME(._k_condvar.static.*)); _k_condvar_list_end = .; } > RAM AT > FLASH
  sys_mem_blocks_ptr_area : ALIGN_WITH_INPUT SUBALIGN(4) { _sys_mem_blocks_ptr_list_start = .; *(SORT_BY_NAME(._sys_mem_blocks_ptr.static.*)); _sys_mem_blocks_ptr_list_end = .; } > RAM AT > FLASH
  net_buf_pool_area : ALIGN_WITH_INPUT SUBALIGN(4) { _net_buf_pool_list_start = .; KEEP(*(SORT_BY_NAME(._net_buf_pool.static.*))); _net_buf_pool_list_end = .; } > RAM AT > FLASH
- zbus_observer_area : ALIGN_WITH_INPUT SUBALIGN(4) { _zbus_observer_list_start = .; KEEP(*(SORT_BY_NAME(._zbus_observer.static.*))); _zbus_observer_list_end = .; } > RAM AT > FLASH
  zbus_channel_observation_mask_area : ALIGN_WITH_INPUT SUBALIGN(1) { _zbus_channel_observation_mask_list_start = .; KEEP(*(SORT_BY_NAME(._zbus_channel_observation_mask.static.*))); _zbus_channel_observation_mask_list_end = .; } > RAM AT > FLASH
     __data_region_end = .;
    bss (NOLOAD) : ALIGN_WITH_INPUT
@@ -259,6 +262,7 @@ __ramfunc_load_start = LOADADDR(.ramfunc);
         } > RAM AT > RAM
     __kernel_ram_end = 0x20000000 + (256 * 1K);
     __kernel_ram_size = __kernel_ram_end - __kernel_ram_start;
+PROVIDE(z_arm_platform_init = SystemInit);
 /DISCARD/ :
 {
  KEEP(*(.irq_info*))
@@ -299,10 +303,14 @@ __ramfunc_load_start = LOADADDR(.ramfunc);
  .debug_varnames 0 : { *(.debug_varnames) }
  .debug_pubtypes 0 : { *(.debug_pubtypes) }
  .debug_ranges 0 : { *(.debug_ranges) }
- .debug_macro 0 : { *(.debug_macro) }
+ .debug_addr 0 : { *(.debug_addr) }
  .debug_line_str 0 : { *(.debug_line_str) }
  .debug_loclists 0 : { *(.debug_loclists) }
+ .debug_macro 0 : { *(.debug_macro) }
+ .debug_names 0 : { *(.debug_names) }
  .debug_rnglists 0 : { *(.debug_rnglists) }
+ .debug_str_offsets 0 : { *(.debug_str_offsets) }
+ .debug_sup 0 : { *(.debug_sup) }
     /DISCARD/ : { *(.note.GNU-stack) }
     .ARM.attributes 0 :
  {

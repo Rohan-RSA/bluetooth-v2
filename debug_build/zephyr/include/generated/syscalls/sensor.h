@@ -168,16 +168,16 @@ static inline int sensor_get_decoder(const struct device * dev, const struct sen
 #endif
 
 
-extern int z_impl_sensor_reconfigure_read_iodev(struct rtio_iodev * iodev, const struct device * sensor, const enum sensor_channel * channels, size_t num_channels);
+extern int z_impl_sensor_reconfigure_read_iodev(struct rtio_iodev * iodev, const struct device * sensor, const struct sensor_chan_spec * channels, size_t num_channels);
 
 __pinned_func
-static inline int sensor_reconfigure_read_iodev(struct rtio_iodev * iodev, const struct device * sensor, const enum sensor_channel * channels, size_t num_channels)
+static inline int sensor_reconfigure_read_iodev(struct rtio_iodev * iodev, const struct device * sensor, const struct sensor_chan_spec * channels, size_t num_channels)
 {
 #ifdef CONFIG_USERSPACE
 	if (z_syscall_trap()) {
 		union { uintptr_t x; struct rtio_iodev * val; } parm0 = { .val = iodev };
 		union { uintptr_t x; const struct device * val; } parm1 = { .val = sensor };
-		union { uintptr_t x; const enum sensor_channel * val; } parm2 = { .val = channels };
+		union { uintptr_t x; const struct sensor_chan_spec * val; } parm2 = { .val = channels };
 		union { uintptr_t x; size_t val; } parm3 = { .val = num_channels };
 		return (int) arch_syscall_invoke4(parm0.x, parm1.x, parm2.x, parm3.x, K_SYSCALL_SENSOR_RECONFIGURE_READ_IODEV);
 	}

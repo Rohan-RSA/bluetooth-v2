@@ -6,6 +6,7 @@
 # and/or the west manifest file.
 #
 # See the Modules guide for more information.
-"BOARD_ROOT":"C:/ncs/v2.6.1/nrf"
-"DTS_ROOT":"C:/ncs/v2.6.1/nrf"
-"MODULE_EXT_ROOT":"C:/ncs/v2.6.1/nrf"
+"BOARD_ROOT":"C:/ncs/v2.7.0-rc2/nrf"
+"DTS_ROOT":"C:/ncs/v2.7.0-rc2/nrf"
+"MODULE_EXT_ROOT":"C:/ncs/v2.7.0-rc2/nrf"
+"SOC_ROOT":"C:/ncs/v2.7.0-rc2/modules/soc-hwmv1"

@@ -72,7 +72,7 @@ ZBUS_CHAN_DEFINE(led_chan,
 // led_service_listener, 
 
 // This is the sys work queue async callback/handler function
-static void wq_dh_cb(struct k_work *item)
+static void wq_led_cb(struct k_work *item)
 {
         struct led_msg msg;
         struct wq_info *led = CONTAINER_OF(item, struct wq_info, work);
@@ -81,6 +81,7 @@ static void wq_dh_cb(struct k_work *item)
 
         LOG_INF("LED msg processed by WORK QUEUE handler dh%u: startup action = %d, power on action = %d,advertising action = %d, error action = %d",
         led->handle, msg.startupAction, msg.poweronAction, msg.advertisingAction, msg.errorAction);
+        // LOG_INF("The work item received is %d", led->work);
 
         if (msg.startupAction == 1)
         {
@@ -99,7 +100,6 @@ static void wq_dh_cb(struct k_work *item)
                         gpio_pin_toggle_dt(&power_led);
                         k_msleep(100);
                 }
-
                 gpio_pin_set_dt(&power_led, 0);
                 gpio_pin_set_dt(&ble_led, 0);
                 gpio_pin_set_dt(&conn_led, 0); 
@@ -124,9 +124,9 @@ ZBUS_LISTENER_DEFINE(delay_handler1_lis, dh1_cb);
 
 void timer_1s_handler(struct k_timer *timer_1s)
 {
-        // led_task.startupAction = 0;
+        led_task.startupAction = 0;
         // zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
-        // k_work_submit(&wq_led_handler1.work);
+        k_work_submit(&wq_led_handler1.work);
         
         // led_task.poweronAction = 1;
         // led_work.led_task =  POWERON;
@@ -145,7 +145,7 @@ int main(void)
         // Send message to do the start-up LED sequence (this is synchronous and blocking)
         // zbus_chan_pub(&led_chan, &led_task, K_SECONDS(1));
         
-        k_work_init(&wq_led_handler1.work, wq_dh_cb);
+        k_work_init(&wq_led_handler1.work, wq_led_cb);
         
         ret = zbus_chan_pub(&led_chan, &led_task, K_MSEC(200));
         if (ret != 0)

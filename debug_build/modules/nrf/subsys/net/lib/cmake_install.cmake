@@ -1,4 +1,4 @@
-# Install script for directory: C:/ncs/v2.6.1/nrf/subsys/net/lib
+# Install script for directory: C:/ncs/v2.7.0-rc2/nrf/subsys/net/lib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
