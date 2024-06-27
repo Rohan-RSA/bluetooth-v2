@@ -125,8 +125,12 @@ ZBUS_LISTENER_DEFINE(delay_handler1_lis, dh1_cb);
 void timer_1s_handler(struct k_timer *timer_1s)
 {
         led_task.startupAction = 0;
-        // zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
-        k_work_submit(&wq_led_handler1.work);
+        led_task.poweronAction = 1;
+        led_task.errorAction = 0;
+        led_task.advertisingAction = 0;
+        
+        zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
+        // k_work_submit(&wq_led_handler1.work);
         
         // led_task.poweronAction = 1;
         // led_work.led_task =  POWERON;
