@@ -35,8 +35,6 @@
 #include <led_task/led_task.h>
 #include <gpio_setup_task/gpio_setup_task.h>
 
-// Hello World
-
 #define PRIORITY        7
 #define STACK_SIZE      2048
 #define SLEEP_TIME      1000
@@ -59,6 +57,7 @@ struct led_msg led_task = {
         .errorAction = 0
 };
 
+static struct wq_info wq_led_handler1 = {.handle = 1};
 // static struct wq_info wq_led_handler2 = {.handle = 2};
 // static struct wq_info wq_led_handler3 = {.handle = 3};
 
@@ -71,70 +70,16 @@ ZBUS_CHAN_DEFINE(led_chan,
 );
 // led_service_listener, 
 
-// This is the sys work queue async callback/handler function
-static void wq_led_cb(struct k_work *item)
-{
-        struct led_msg msg;
-        struct wq_info *led = CONTAINER_OF(item, struct wq_info, work);
-
-        zbus_chan_read(led->chan, &msg, K_MSEC(200));
-
-        LOG_INF("LED msg processed by WORK QUEUE handler dh%u: startup action = %d, power on action = %d,advertising action = %d, error action = %d",
-        led->handle, msg.startupAction, msg.poweronAction, msg.advertisingAction, msg.errorAction);
-        // LOG_INF("The work item received is %d", led->work);
-
-        if (msg.startupAction == 1)
-        {
-                for (size_t i = 0; i < 3; i++)
-                {
-                        gpio_pin_toggle_dt(&power_led);
-                        k_msleep(100);
-                        gpio_pin_toggle_dt(&conn_led);
-                        k_msleep(100);
-                        gpio_pin_toggle_dt(&ble_led);
-                        k_msleep(100);
-                        gpio_pin_toggle_dt(&ble_led);
-                        k_msleep(100);
-                        gpio_pin_toggle_dt(&conn_led);
-                        k_msleep(100);
-                        gpio_pin_toggle_dt(&power_led);
-                        k_msleep(100);
-                }
-                gpio_pin_set_dt(&power_led, 0);
-                gpio_pin_set_dt(&ble_led, 0);
-                gpio_pin_set_dt(&conn_led, 0); 
-                led_task.startupAction = 0; 
-        }
-        if (msg.poweronAction == 1)
-        {
-                // Here I would like to use the LED API to continually blink this led forever
-                gpio_pin_set_dt(&power_led, 1);
-                k_msleep(20);
-                gpio_pin_set_dt(&power_led, 0);
-        }
-
-};
-
-static void dh1_cb(const struct zbus_channel *chan)
-{
-        wq_led_handler1.chan = chan;
-        k_work_submit(&wq_led_handler1.work);
-}
-ZBUS_LISTENER_DEFINE(delay_handler1_lis, dh1_cb);
-
 void timer_1s_handler(struct k_timer *timer_1s)
 {
         led_task.startupAction = 0;
         led_task.poweronAction = 1;
         led_task.errorAction = 0;
         led_task.advertisingAction = 0;
-        
+
         zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
+
         // k_work_submit(&wq_led_handler1.work);
-        
-        // led_task.poweronAction = 1;
-        // led_work.led_task =  POWERON;
-        // k_work_submit(&led_work.work);
 }
 K_TIMER_DEFINE(timer_1s, timer_1s_handler, NULL);
 
@@ -144,9 +89,10 @@ int main(void)
 
         int ret;
 
+        // Once off task
         k_work_submit(&gpio_worker);
 
-        // Send message to do the start-up LED sequence (this is synchronous and blocking)
+        // Send message to do the start-up LED sequence (this is synchronous and blocking?)
         // zbus_chan_pub(&led_chan, &led_task, K_SECONDS(1));
         
         k_work_init(&wq_led_handler1.work, wq_led_cb);
@@ -157,7 +103,6 @@ int main(void)
                 LOG_ERR("Could not publish to led channel");
         }
         
-
         // led_work.led_task =  STARTUP;
         // k_work_init(&led_work.work, led_handler);
         // k_work_submit(&led_work.work);
