@@ -1,4 +1,4 @@
-# Install script for directory: C:/ncs/v2.6.1/modules/debug/mipi-sys-t
+# Install script for directory: C:/ncs/v2.7.0-rc2/modules/debug/mipi-sys-t
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

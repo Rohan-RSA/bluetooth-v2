@@ -1,4 +1,4 @@
-# Install script for directory: C:/ncs/v2.6.1/zephyr/lib/libc/common
+# Install script for directory: C:/ncs/v2.7.0-rc2/zephyr/lib/libc/common
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

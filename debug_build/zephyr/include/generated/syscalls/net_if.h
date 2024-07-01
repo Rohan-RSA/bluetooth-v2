@@ -190,6 +190,31 @@ static inline bool net_if_ipv4_set_netmask_by_index(int index, const struct in_a
 #endif
 
 
+extern bool z_impl_net_if_ipv4_set_netmask_by_addr_by_index(int index, const struct in_addr * addr, const struct in_addr * netmask);
+
+__pinned_func
+static inline bool net_if_ipv4_set_netmask_by_addr_by_index(int index, const struct in_addr * addr, const struct in_addr * netmask)
+{
+#ifdef CONFIG_USERSPACE
+	if (z_syscall_trap()) {
+		union { uintptr_t x; int val; } parm0 = { .val = index };
+		union { uintptr_t x; const struct in_addr * val; } parm1 = { .val = addr };
+		union { uintptr_t x; const struct in_addr * val; } parm2 = { .val = netmask };
+		return (bool) arch_syscall_invoke3(parm0.x, parm1.x, parm2.x, K_SYSCALL_NET_IF_IPV4_SET_NETMASK_BY_ADDR_BY_INDEX);
+	}
+#endif
+	compiler_barrier();
+	return z_impl_net_if_ipv4_set_netmask_by_addr_by_index(index, addr, netmask);
+}
+
+#if defined(CONFIG_TRACING_SYSCALL)
+#ifndef DISABLE_SYSCALL_TRACING
+
+#define net_if_ipv4_set_netmask_by_addr_by_index(index, addr, netmask) ({ 	bool syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_NET_IF_IPV4_SET_NETMASK_BY_ADDR_BY_INDEX, net_if_ipv4_set_netmask_by_addr_by_index, index, addr, netmask); 	syscall__retval = net_if_ipv4_set_netmask_by_addr_by_index(index, addr, netmask); 	sys_port_trace_syscall_exit(K_SYSCALL_NET_IF_IPV4_SET_NETMASK_BY_ADDR_BY_INDEX, net_if_ipv4_set_netmask_by_addr_by_index, index, addr, netmask, syscall__retval); 	syscall__retval; })
+#endif
+#endif
+
+
 extern bool z_impl_net_if_ipv4_set_gw_by_index(int index, const struct in_addr * gw);
 
 __pinned_func

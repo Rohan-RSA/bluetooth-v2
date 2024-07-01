@@ -180,7 +180,7 @@
 			compatible = "nordic,nrf-nfct";
 			reg = < 0x40005000 0x1000 >;
 			interrupts = < 0x5 0x1 >;
-			status = "okay";
+			status = "disabled";
 		};
 		gpiote: gpiote0: gpiote@40006000 {
 			compatible = "nordic,nrf-gpiote";
@@ -558,24 +558,24 @@
 		uart0_default: uart0_default {
 			phandle = < 0x2 >;
 			group1 {
-				psels = < 0x2d >, < 0x2001f >;
+				psels = < 0x2d >, < 0x4001f >;
 			};
 			group2 {
-				psels = < 0x1001d >, < 0x3002c >;
+				psels = < 0x2001d >, < 0x6002c >;
 				bias-pull-up;
 			};
 		};
 		uart0_sleep: uart0_sleep {
 			phandle = < 0x3 >;
 			group1 {
-				psels = < 0x2d >, < 0x1001d >, < 0x2001f >, < 0x3002c >;
+				psels = < 0x2d >, < 0x2001d >, < 0x4001f >, < 0x6002c >;
 				low-power-enable;
 			};
 		};
 		uart1_default: uart1_default {
 			phandle = < 0x10 >;
 			group1 {
-				psels = < 0x10021 >;
+				psels = < 0x20021 >;
 				bias-pull-up;
 			};
 			group2 {
@@ -585,104 +585,104 @@
 		uart1_sleep: uart1_sleep {
 			phandle = < 0x11 >;
 			group1 {
-				psels = < 0x10021 >, < 0x22 >;
+				psels = < 0x20021 >, < 0x22 >;
 				low-power-enable;
 			};
 		};
 		i2c0_default: i2c0_default {
 			phandle = < 0x4 >;
 			group1 {
-				psels = < 0xc001a >, < 0xb001b >;
+				psels = < 0x18001a >, < 0x16001b >;
 			};
 		};
 		i2c0_sleep: i2c0_sleep {
 			phandle = < 0x5 >;
 			group1 {
-				psels = < 0xc001a >, < 0xb001b >;
+				psels = < 0x18001a >, < 0x16001b >;
 				low-power-enable;
 			};
 		};
 		i2c1_default: i2c1_default {
 			phandle = < 0x8 >;
 			group1 {
-				psels = < 0xc001e >, < 0xb001f >;
+				psels = < 0x18001e >, < 0x16001f >;
 			};
 		};
 		i2c1_sleep: i2c1_sleep {
 			phandle = < 0x9 >;
 			group1 {
-				psels = < 0xc001e >, < 0xb001f >;
+				psels = < 0x18001e >, < 0x16001f >;
 				low-power-enable;
 			};
 		};
 		pwm0_default: pwm0_default {
 			phandle = < 0xc >;
 			group1 {
-				psels = < 0x16000d >;
+				psels = < 0x2c000d >;
 				nordic,invert;
 			};
 		};
 		pwm0_sleep: pwm0_sleep {
 			phandle = < 0xd >;
 			group1 {
-				psels = < 0x16000d >;
+				psels = < 0x2c000d >;
 				low-power-enable;
 			};
 		};
 		spi0_default: spi0_default {
 			phandle = < 0x6 >;
 			group1 {
-				psels = < 0x4001b >, < 0x5001a >, < 0x6001d >;
+				psels = < 0x8001b >, < 0xa001a >, < 0xc001d >;
 			};
 		};
 		spi0_sleep: spi0_sleep {
 			phandle = < 0x7 >;
 			group1 {
-				psels = < 0x4001b >, < 0x5001a >, < 0x6001d >;
+				psels = < 0x8001b >, < 0xa001a >, < 0xc001d >;
 				low-power-enable;
 			};
 		};
 		spi1_default: spi1_default {
 			phandle = < 0xa >;
 			group1 {
-				psels = < 0x4001f >, < 0x5001e >, < 0x60028 >;
+				psels = < 0x8001f >, < 0xa001e >, < 0xc0028 >;
 			};
 		};
 		spi1_sleep: spi1_sleep {
 			phandle = < 0xb >;
 			group1 {
-				psels = < 0x4001f >, < 0x5001e >, < 0x60028 >;
+				psels = < 0x8001f >, < 0xa001e >, < 0xc0028 >;
 				low-power-enable;
 			};
 		};
 		spi2_default: spi2_default {
 			phandle = < 0xe >;
 			group1 {
-				psels = < 0x40013 >, < 0x50014 >, < 0x60015 >;
+				psels = < 0x80013 >, < 0xa0014 >, < 0xc0015 >;
 			};
 		};
 		spi2_sleep: spi2_sleep {
 			phandle = < 0xf >;
 			group1 {
-				psels = < 0x40013 >, < 0x50014 >, < 0x60015 >;
+				psels = < 0x80013 >, < 0xa0014 >, < 0xc0015 >;
 				low-power-enable;
 			};
 		};
 		qspi_default: qspi_default {
 			phandle = < 0x12 >;
 			group1 {
-				psels = < 0x1d0013 >, < 0x1f0014 >, < 0x200015 >, < 0x210016 >, < 0x220017 >, < 0x1e0011 >;
+				psels = < 0x3a0013 >, < 0x3e0014 >, < 0x400015 >, < 0x420016 >, < 0x440017 >, < 0x3c0011 >;
 				nordic,drive-mode = < 0x3 >;
 			};
 		};
 		qspi_sleep: qspi_sleep {
 			phandle = < 0x13 >;
 			group1 {
-				psels = < 0x1d0013 >, < 0x1f0014 >, < 0x200015 >, < 0x210016 >, < 0x220017 >;
+				psels = < 0x3a0013 >, < 0x3e0014 >, < 0x400015 >, < 0x420016 >, < 0x440017 >;
 				low-power-enable;
 			};
 			group2 {
-				psels = < 0x1e0011 >;
+				psels = < 0x3c0011 >;
 				low-power-enable;
 				bias-pull-up;
 			};
@@ -690,13 +690,13 @@
 		spi3_default: spi3_default {
 			phandle = < 0x15 >;
 			group1 {
-				psels = < 0x4002f >, < 0x6002e >, < 0x5002d >;
+				psels = < 0x8002f >, < 0xc002e >, < 0xa002d >;
 			};
 		};
 		spi3_sleep: spi3_sleep {
 			phandle = < 0x16 >;
 			group1 {
-				psels = < 0x4002f >, < 0x6002e >, < 0x5002d >;
+				psels = < 0x8002f >, < 0xc002e >, < 0xa002d >;
 				low-power-enable;
 			};
 		};

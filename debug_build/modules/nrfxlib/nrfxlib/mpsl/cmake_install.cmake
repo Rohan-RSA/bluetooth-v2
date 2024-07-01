@@ -1,4 +1,4 @@
-# Install script for directory: C:/ncs/v2.6.1/nrfxlib/mpsl
+# Install script for directory: C:/ncs/v2.7.0-rc2/nrfxlib/mpsl
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

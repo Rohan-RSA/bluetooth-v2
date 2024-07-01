@@ -251,39 +251,39 @@ static inline void k_thread_start(k_tid_t thread)
 }
 
 
-extern k_ticks_t z_impl_k_thread_timeout_expires_ticks(const struct k_thread * t);
+extern k_ticks_t z_impl_k_thread_timeout_expires_ticks(const struct k_thread * thread);
 
 __pinned_func
-static inline k_ticks_t k_thread_timeout_expires_ticks(const struct k_thread * t)
+static inline k_ticks_t k_thread_timeout_expires_ticks(const struct k_thread * thread)
 {
 #ifdef CONFIG_USERSPACE
 	uint64_t ret64;
 	if (z_syscall_trap()) {
-		union { uintptr_t x; const struct k_thread * val; } parm0 = { .val = t };
+		union { uintptr_t x; const struct k_thread * val; } parm0 = { .val = thread };
 		(void) arch_syscall_invoke2(parm0.x, (uintptr_t)&ret64, K_SYSCALL_K_THREAD_TIMEOUT_EXPIRES_TICKS);
 		return (k_ticks_t) ret64;
 	}
 #endif
 	compiler_barrier();
-	return z_impl_k_thread_timeout_expires_ticks(t);
+	return z_impl_k_thread_timeout_expires_ticks(thread);
 }
 
 
-extern k_ticks_t z_impl_k_thread_timeout_remaining_ticks(const struct k_thread * t);
+extern k_ticks_t z_impl_k_thread_timeout_remaining_ticks(const struct k_thread * thread);
 
 __pinned_func
-static inline k_ticks_t k_thread_timeout_remaining_ticks(const struct k_thread * t)
+static inline k_ticks_t k_thread_timeout_remaining_ticks(const struct k_thread * thread)
 {
 #ifdef CONFIG_USERSPACE
 	uint64_t ret64;
 	if (z_syscall_trap()) {
-		union { uintptr_t x; const struct k_thread * val; } parm0 = { .val = t };
+		union { uintptr_t x; const struct k_thread * val; } parm0 = { .val = thread };
 		(void) arch_syscall_invoke2(parm0.x, (uintptr_t)&ret64, K_SYSCALL_K_THREAD_TIMEOUT_REMAINING_TICKS);
 		return (k_ticks_t) ret64;
 	}
 #endif
 	compiler_barrier();
-	return z_impl_k_thread_timeout_remaining_ticks(t);
+	return z_impl_k_thread_timeout_remaining_ticks(thread);
 }
 
 
@@ -1327,15 +1327,15 @@ static inline int k_pipe_alloc_init(struct k_pipe * pipe, size_t size)
 }
 
 
-extern int z_impl_k_pipe_put(struct k_pipe * pipe, void * data, size_t bytes_to_write, size_t * bytes_written, size_t min_xfer, k_timeout_t timeout);
+extern int z_impl_k_pipe_put(struct k_pipe * pipe, const void * data, size_t bytes_to_write, size_t * bytes_written, size_t min_xfer, k_timeout_t timeout);
 
 __pinned_func
-static inline int k_pipe_put(struct k_pipe * pipe, void * data, size_t bytes_to_write, size_t * bytes_written, size_t min_xfer, k_timeout_t timeout)
+static inline int k_pipe_put(struct k_pipe * pipe, const void * data, size_t bytes_to_write, size_t * bytes_written, size_t min_xfer, k_timeout_t timeout)
 {
 #ifdef CONFIG_USERSPACE
 	if (z_syscall_trap()) {
 		union { uintptr_t x; struct k_pipe * val; } parm0 = { .val = pipe };
-		union { uintptr_t x; void * val; } parm1 = { .val = data };
+		union { uintptr_t x; const void * val; } parm1 = { .val = data };
 		union { uintptr_t x; size_t val; } parm2 = { .val = bytes_to_write };
 		union { uintptr_t x; size_t * val; } parm3 = { .val = bytes_written };
 		union { uintptr_t x; size_t val; } parm4 = { .val = min_xfer };

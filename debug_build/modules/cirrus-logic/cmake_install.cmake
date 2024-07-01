@@ -1,4 +1,4 @@
-# Install script for directory: C:/ncs/v2.6.1/modules/hal/cirrus-logic
+# Install script for directory: C:/ncs/v2.7.0-rc2/modules/hal/cirrus-logic
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

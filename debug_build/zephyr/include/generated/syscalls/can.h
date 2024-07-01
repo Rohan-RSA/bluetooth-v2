@@ -44,26 +44,48 @@ static inline int can_get_core_clock(const struct device * dev, uint32_t * rate)
 #endif
 
 
-extern int z_impl_can_get_max_bitrate(const struct device * dev, uint32_t * max_bitrate);
+extern uint32_t z_impl_can_get_bitrate_min(const struct device * dev);
 
 __pinned_func
-static inline int can_get_max_bitrate(const struct device * dev, uint32_t * max_bitrate)
+static inline uint32_t can_get_bitrate_min(const struct device * dev)
 {
 #ifdef CONFIG_USERSPACE
 	if (z_syscall_trap()) {
 		union { uintptr_t x; const struct device * val; } parm0 = { .val = dev };
-		union { uintptr_t x; uint32_t * val; } parm1 = { .val = max_bitrate };
-		return (int) arch_syscall_invoke2(parm0.x, parm1.x, K_SYSCALL_CAN_GET_MAX_BITRATE);
+		return (uint32_t) arch_syscall_invoke1(parm0.x, K_SYSCALL_CAN_GET_BITRATE_MIN);
 	}
 #endif
 	compiler_barrier();
-	return z_impl_can_get_max_bitrate(dev, max_bitrate);
+	return z_impl_can_get_bitrate_min(dev);
 }
 
 #if defined(CONFIG_TRACING_SYSCALL)
 #ifndef DISABLE_SYSCALL_TRACING
 
-#define can_get_max_bitrate(dev, max_bitrate) ({ 	int syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_CAN_GET_MAX_BITRATE, can_get_max_bitrate, dev, max_bitrate); 	syscall__retval = can_get_max_bitrate(dev, max_bitrate); 	sys_port_trace_syscall_exit(K_SYSCALL_CAN_GET_MAX_BITRATE, can_get_max_bitrate, dev, max_bitrate, syscall__retval); 	syscall__retval; })
+#define can_get_bitrate_min(dev) ({ 	uint32_t syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_CAN_GET_BITRATE_MIN, can_get_bitrate_min, dev); 	syscall__retval = can_get_bitrate_min(dev); 	sys_port_trace_syscall_exit(K_SYSCALL_CAN_GET_BITRATE_MIN, can_get_bitrate_min, dev, syscall__retval); 	syscall__retval; })
+#endif
+#endif
+
+
+extern uint32_t z_impl_can_get_bitrate_max(const struct device * dev);
+
+__pinned_func
+static inline uint32_t can_get_bitrate_max(const struct device * dev)
+{
+#ifdef CONFIG_USERSPACE
+	if (z_syscall_trap()) {
+		union { uintptr_t x; const struct device * val; } parm0 = { .val = dev };
+		return (uint32_t) arch_syscall_invoke1(parm0.x, K_SYSCALL_CAN_GET_BITRATE_MAX);
+	}
+#endif
+	compiler_barrier();
+	return z_impl_can_get_bitrate_max(dev);
+}
+
+#if defined(CONFIG_TRACING_SYSCALL)
+#ifndef DISABLE_SYSCALL_TRACING
+
+#define can_get_bitrate_max(dev) ({ 	uint32_t syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_CAN_GET_BITRATE_MAX, can_get_bitrate_max, dev); 	syscall__retval = can_get_bitrate_max(dev); 	sys_port_trace_syscall_exit(K_SYSCALL_CAN_GET_BITRATE_MAX, can_get_bitrate_max, dev, syscall__retval); 	syscall__retval; })
 #endif
 #endif
 
@@ -308,6 +330,29 @@ static inline int can_get_capabilities(const struct device * dev, can_mode_t * c
 #endif
 
 
+extern const struct device * z_impl_can_get_transceiver(const struct device * dev);
+
+__pinned_func
+static inline const struct device * can_get_transceiver(const struct device * dev)
+{
+#ifdef CONFIG_USERSPACE
+	if (z_syscall_trap()) {
+		union { uintptr_t x; const struct device * val; } parm0 = { .val = dev };
+		return (const struct device *) arch_syscall_invoke1(parm0.x, K_SYSCALL_CAN_GET_TRANSCEIVER);
+	}
+#endif
+	compiler_barrier();
+	return z_impl_can_get_transceiver(dev);
+}
+
+#if defined(CONFIG_TRACING_SYSCALL)
+#ifndef DISABLE_SYSCALL_TRACING
+
+#define can_get_transceiver(dev) ({ 	const struct device * syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_CAN_GET_TRANSCEIVER, can_get_transceiver, dev); 	syscall__retval = can_get_transceiver(dev); 	sys_port_trace_syscall_exit(K_SYSCALL_CAN_GET_TRANSCEIVER, can_get_transceiver, dev, syscall__retval); 	syscall__retval; })
+#endif
+#endif
+
+
 extern int z_impl_can_start(const struct device * dev);
 
 __pinned_func
@@ -374,6 +419,29 @@ static inline int can_set_mode(const struct device * dev, can_mode_t mode)
 #ifndef DISABLE_SYSCALL_TRACING
 
 #define can_set_mode(dev, mode) ({ 	int syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_CAN_SET_MODE, can_set_mode, dev, mode); 	syscall__retval = can_set_mode(dev, mode); 	sys_port_trace_syscall_exit(K_SYSCALL_CAN_SET_MODE, can_set_mode, dev, mode, syscall__retval); 	syscall__retval; })
+#endif
+#endif
+
+
+extern can_mode_t z_impl_can_get_mode(const struct device * dev);
+
+__pinned_func
+static inline can_mode_t can_get_mode(const struct device * dev)
+{
+#ifdef CONFIG_USERSPACE
+	if (z_syscall_trap()) {
+		union { uintptr_t x; const struct device * val; } parm0 = { .val = dev };
+		return (can_mode_t) arch_syscall_invoke1(parm0.x, K_SYSCALL_CAN_GET_MODE);
+	}
+#endif
+	compiler_barrier();
+	return z_impl_can_get_mode(dev);
+}
+
+#if defined(CONFIG_TRACING_SYSCALL)
+#ifndef DISABLE_SYSCALL_TRACING
+
+#define can_get_mode(dev) ({ 	can_mode_t syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_CAN_GET_MODE, can_get_mode, dev); 	syscall__retval = can_get_mode(dev); 	sys_port_trace_syscall_exit(K_SYSCALL_CAN_GET_MODE, can_get_mode, dev, syscall__retval); 	syscall__retval; })
 #endif
 #endif
 

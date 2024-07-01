@@ -66,6 +66,29 @@ static inline bool device_is_ready(const struct device * dev)
 #endif
 
 
+extern int z_impl_device_init(const struct device * dev);
+
+__pinned_func
+static inline int device_init(const struct device * dev)
+{
+#ifdef CONFIG_USERSPACE
+	if (z_syscall_trap()) {
+		union { uintptr_t x; const struct device * val; } parm0 = { .val = dev };
+		return (int) arch_syscall_invoke1(parm0.x, K_SYSCALL_DEVICE_INIT);
+	}
+#endif
+	compiler_barrier();
+	return z_impl_device_init(dev);
+}
+
+#if defined(CONFIG_TRACING_SYSCALL)
+#ifndef DISABLE_SYSCALL_TRACING
+
+#define device_init(dev) ({ 	int syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_DEVICE_INIT, device_init, dev); 	syscall__retval = device_init(dev); 	sys_port_trace_syscall_exit(K_SYSCALL_DEVICE_INIT, device_init, dev, syscall__retval); 	syscall__retval; })
+#endif
+#endif
+
+
 #ifdef __cplusplus
 }
 #endif

@@ -321,35 +321,60 @@ static inline ssize_t zsock_recvfrom(int sock, void * buf, size_t max_len, int f
 #endif
 
 
-extern int z_impl_zsock_fcntl(int sock, int cmd, int flags);
+extern ssize_t z_impl_zsock_recvmsg(int sock, struct msghdr * msg, int flags);
 
 __pinned_func
-static inline int zsock_fcntl(int sock, int cmd, int flags)
+static inline ssize_t zsock_recvmsg(int sock, struct msghdr * msg, int flags)
+{
+#ifdef CONFIG_USERSPACE
+	if (z_syscall_trap()) {
+		union { uintptr_t x; int val; } parm0 = { .val = sock };
+		union { uintptr_t x; struct msghdr * val; } parm1 = { .val = msg };
+		union { uintptr_t x; int val; } parm2 = { .val = flags };
+		return (ssize_t) arch_syscall_invoke3(parm0.x, parm1.x, parm2.x, K_SYSCALL_ZSOCK_RECVMSG);
+	}
+#endif
+	compiler_barrier();
+	return z_impl_zsock_recvmsg(sock, msg, flags);
+}
+
+#if defined(CONFIG_TRACING_SYSCALL)
+#ifndef DISABLE_SYSCALL_TRACING
+
+#define zsock_recvmsg(sock, msg, flags) ({ 	ssize_t syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_ZSOCK_RECVMSG, zsock_recvmsg, sock, msg, flags); 	syscall__retval = zsock_recvmsg(sock, msg, flags); 	sys_port_trace_syscall_exit(K_SYSCALL_ZSOCK_RECVMSG, zsock_recvmsg, sock, msg, flags, syscall__retval); 	syscall__retval; })
+#endif
+#endif
+
+
+extern int z_impl_zsock_fcntl_impl(int sock, int cmd, int flags);
+
+__pinned_func
+static inline int zsock_fcntl_impl(int sock, int cmd, int flags)
 {
 #ifdef CONFIG_USERSPACE
 	if (z_syscall_trap()) {
 		union { uintptr_t x; int val; } parm0 = { .val = sock };
 		union { uintptr_t x; int val; } parm1 = { .val = cmd };
 		union { uintptr_t x; int val; } parm2 = { .val = flags };
-		return (int) arch_syscall_invoke3(parm0.x, parm1.x, parm2.x, K_SYSCALL_ZSOCK_FCNTL);
+		return (int) arch_syscall_invoke3(parm0.x, parm1.x, parm2.x, K_SYSCALL_ZSOCK_FCNTL_IMPL);
 	}
 #endif
 	compiler_barrier();
-	return z_impl_zsock_fcntl(sock, cmd, flags);
+	return z_impl_zsock_fcntl_impl(sock, cmd, flags);
 }
 
 #if defined(CONFIG_TRACING_SYSCALL)
 #ifndef DISABLE_SYSCALL_TRACING
 
-#define zsock_fcntl(sock, cmd, flags) ({ 	int syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_ZSOCK_FCNTL, zsock_fcntl, sock, cmd, flags); 	syscall__retval = zsock_fcntl(sock, cmd, flags); 	sys_port_trace_syscall_exit(K_SYSCALL_ZSOCK_FCNTL, zsock_fcntl, sock, cmd, flags, syscall__retval); 	syscall__retval; })
+#define zsock_fcntl_impl(sock, cmd, flags) ({ 	int syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_ZSOCK_FCNTL_IMPL, zsock_fcntl_impl, sock, cmd, flags); 	syscall__retval = zsock_fcntl_impl(sock, cmd, flags); 	sys_port_trace_syscall_exit(K_SYSCALL_ZSOCK_FCNTL_IMPL, zsock_fcntl_impl, sock, cmd, flags, syscall__retval); 	syscall__retval; })
 #endif
 #endif
 
 
-extern int z_impl_zsock_ioctl(int sock, unsigned long request, va_list ap);
+extern int z_impl_zsock_ioctl_impl(int sock, unsigned long request, va_list ap);
 
 __pinned_func
-static inline int zsock_ioctl(int sock, unsigned long request, va_list ap)
+static inline int zsock_ioctl_impl(int sock, unsigned long request, va_list ap)
 {
 #ifdef CONFIG_USERSPACE
 	if (z_syscall_trap()) {
@@ -357,19 +382,19 @@ static inline int zsock_ioctl(int sock, unsigned long request, va_list ap)
 		union { uintptr_t x; unsigned long val; } parm1 = { .val = request };
 		union { uintptr_t x; va_list val; } parm2;
 		va_copy(parm2.val, ap);
-		int invoke__retval = arch_syscall_invoke3(parm0.x, parm1.x, parm2.x, K_SYSCALL_ZSOCK_IOCTL);
+		int invoke__retval = arch_syscall_invoke3(parm0.x, parm1.x, parm2.x, K_SYSCALL_ZSOCK_IOCTL_IMPL);
 		va_end(parm2.val);
 		return invoke__retval;
 	}
 #endif
 	compiler_barrier();
-	return z_impl_zsock_ioctl(sock, request, ap);
+	return z_impl_zsock_ioctl_impl(sock, request, ap);
 }
 
 #if defined(CONFIG_TRACING_SYSCALL)
 #ifndef DISABLE_SYSCALL_TRACING
 
-#define zsock_ioctl(sock, request, ap) ({ 	int syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_ZSOCK_IOCTL, zsock_ioctl, sock, request, ap); 	syscall__retval = zsock_ioctl(sock, request, ap); 	sys_port_trace_syscall_exit(K_SYSCALL_ZSOCK_IOCTL, zsock_ioctl, sock, request, ap, syscall__retval); 	syscall__retval; })
+#define zsock_ioctl_impl(sock, request, ap) ({ 	int syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_ZSOCK_IOCTL_IMPL, zsock_ioctl_impl, sock, request, ap); 	syscall__retval = zsock_ioctl_impl(sock, request, ap); 	sys_port_trace_syscall_exit(K_SYSCALL_ZSOCK_IOCTL_IMPL, zsock_ioctl_impl, sock, request, ap, syscall__retval); 	syscall__retval; })
 #endif
 #endif
 

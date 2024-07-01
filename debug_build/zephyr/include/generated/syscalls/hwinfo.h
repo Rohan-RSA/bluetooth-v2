@@ -44,6 +44,29 @@ static inline ssize_t hwinfo_get_device_id(uint8_t * buffer, size_t length)
 #endif
 
 
+extern int z_impl_hwinfo_get_device_eui64(uint8_t * buffer);
+
+__pinned_func
+static inline int hwinfo_get_device_eui64(uint8_t * buffer)
+{
+#ifdef CONFIG_USERSPACE
+	if (z_syscall_trap()) {
+		union { uintptr_t x; uint8_t * val; } parm0 = { .val = buffer };
+		return (int) arch_syscall_invoke1(parm0.x, K_SYSCALL_HWINFO_GET_DEVICE_EUI64);
+	}
+#endif
+	compiler_barrier();
+	return z_impl_hwinfo_get_device_eui64(buffer);
+}
+
+#if defined(CONFIG_TRACING_SYSCALL)
+#ifndef DISABLE_SYSCALL_TRACING
+
+#define hwinfo_get_device_eui64(buffer) ({ 	int syscall__retval; 	sys_port_trace_syscall_enter(K_SYSCALL_HWINFO_GET_DEVICE_EUI64, hwinfo_get_device_eui64, buffer); 	syscall__retval = hwinfo_get_device_eui64(buffer); 	sys_port_trace_syscall_exit(K_SYSCALL_HWINFO_GET_DEVICE_EUI64, hwinfo_get_device_eui64, buffer, syscall__retval); 	syscall__retval; })
+#endif
+#endif
+
+
 extern int z_impl_hwinfo_get_reset_cause(uint32_t * cause);
 
 __pinned_func

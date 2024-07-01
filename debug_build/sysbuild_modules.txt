@@ -1,1 +1,2 @@
-"nrf":"C:/ncs/v2.6.1/nrf":"C:/ncs/v2.6.1/nrf/sysbuild"
+"nrf":"C:/ncs/v2.7.0-rc2/nrf":"C:/ncs/v2.7.0-rc2/nrf/sysbuild"
+"mcuboot":"C:/ncs/v2.7.0-rc2/bootloader/mcuboot":"C:/ncs/v2.7.0-rc2/bootloader/mcuboot/boot/zephyr/sysbuild"
