@@ -57,7 +57,7 @@ struct led_msg led_task = {
         .errorAction = 0
 };
 
-static struct wq_info wq_led_handler1 = {.handle = 1};
+struct wq_info wq_led_handler1 = {.handle = 1};
 // static struct wq_info wq_led_handler2 = {.handle = 2};
 // static struct wq_info wq_led_handler3 = {.handle = 3};
 
@@ -83,6 +83,13 @@ void timer_1s_handler(struct k_timer *timer_1s)
 }
 K_TIMER_DEFINE(timer_1s, timer_1s_handler, NULL);
 
+void dh1_cb(const struct zbus_channel *chan)
+{
+        wq_led_handler1.chan = chan;
+        k_work_submit(&wq_led_handler1.work);
+}
+ZBUS_LISTENER_DEFINE(delay_handler1_lis, dh1_cb);
+
 int main(void)
 {
         LOG_INF("FT_BLE STARTING UP");
@@ -103,10 +110,6 @@ int main(void)
                 LOG_ERR("Could not publish to led channel");
         }
         
-        // led_work.led_task =  STARTUP;
-        // k_work_init(&led_work.work, led_handler);
-        // k_work_submit(&led_work.work);
-
         k_timer_start(&timer_1s, K_SECONDS(2), K_SECONDS(2));
         
         return 0;

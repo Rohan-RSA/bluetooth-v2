@@ -18,7 +18,8 @@
         "stdint.h": "c",
         "gpio.h": "c",
         "zbus.h": "c",
-        "util.h": "c"
+        "util.h": "c",
+        "util_macro.h": "c"
     },
     "cmake.configureOnOpen": false,
     "nrf-connect.debugging.bindings": {

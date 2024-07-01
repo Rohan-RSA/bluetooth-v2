@@ -14,8 +14,6 @@ LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
 ZBUS_CHAN_DECLARE(led_chan);
 
-static struct wq_info wq_led_handler1 = {.handle = 1};
-
 // This is the sys work queue async callback/handler function
 void wq_led_cb(struct k_work *item)
 {
@@ -59,13 +57,6 @@ void wq_led_cb(struct k_work *item)
         }
 
 };
-
-void dh1_cb(const struct zbus_channel *chan)
-{
-        wq_led_handler1.chan = chan;
-        k_work_submit(&wq_led_handler1.work);
-}
-ZBUS_LISTENER_DEFINE(delay_handler1_lis, dh1_cb);
 
 // void led_callback_listener(struct zbus_channel *chan)
 // {
