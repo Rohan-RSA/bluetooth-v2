@@ -19,7 +19,8 @@
         "gpio.h": "c",
         "zbus.h": "c",
         "util.h": "c",
-        "util_macro.h": "c"
+        "util_macro.h": "c",
+        "advertise_task.h": "c"
     },
     "cmake.configureOnOpen": false,
     "nrf-connect.debugging.bindings": {

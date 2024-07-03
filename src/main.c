@@ -34,6 +34,7 @@
 
 #include <led_task/led_task.h>
 #include <gpio_setup_task/gpio_setup_task.h>
+#include <advertise_task/advertise_task.h>
 
 #define PRIORITY        7
 #define STACK_SIZE      2048
@@ -57,8 +58,16 @@ struct led_msg led_task = {
         .errorAction = 0
 };
 
+struct advertise_msg advertise_task = 
+{
+        .adv_config = 1,
+        .adv_start = 0,
+        .adv_stop = 0,
+        .adv_update =0
+};
+
 struct wq_info wq_led_handler1 = {.handle = 1};
-// static struct wq_info wq_led_handler2 = {.handle = 2};
+struct wq_info wq_adv_handler1 = {.handle = 2};
 // static struct wq_info wq_led_handler3 = {.handle = 3};
 
 ZBUS_CHAN_DEFINE(led_chan,
@@ -68,7 +77,15 @@ ZBUS_CHAN_DEFINE(led_chan,
                 ZBUS_OBSERVERS(delay_handler1_lis),
                 ZBUS_MSG_INIT(0)
 );
-// led_service_listener, 
+// led_service_listener,
+
+ZBUS_CHAN_DEFINE(ble_chan,
+                struct bt_data,
+                NULL,
+                NULL,
+                ZBUS_OBSERVERS(advertise_handler1_lis),
+                ZBUS_MSG_INIT(0)
+);
 
 void timer_1s_handler(struct k_timer *timer_1s)
 {
@@ -90,6 +107,14 @@ void dh1_cb(const struct zbus_channel *chan)
 }
 ZBUS_LISTENER_DEFINE(delay_handler1_lis, dh1_cb);
 
+void advertise_cb(const struct zbus_channel *chan)
+{
+        LOG_INF("advertise_cb works");
+        wq_adv_handler1.chan = chan;
+        LOG_INF("wq_adv_hanlder1.chan = %p", (void *)wq_adv_handler1.chan);
+}
+ZBUS_LISTENER_DEFINE(advertise_handler1_lis, advertise_cb);
+
 int main(void)
 {
         LOG_INF("FT_BLE STARTING UP");
@@ -108,6 +133,12 @@ int main(void)
         if (ret != 0)
         {
                 LOG_ERR("Could not publish to led channel");
+        }
+
+        ret = zbus_chan_pub(&ble_chan, &advertise_task, K_MSEC(200));
+        if (ret != 0)
+        {
+                LOG_ERR("Could not publish to ble channel");
         }
         
         k_timer_start(&timer_1s, K_SECONDS(2), K_SECONDS(2));
