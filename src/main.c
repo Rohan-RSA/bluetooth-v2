@@ -51,19 +51,20 @@ K_WORK_DEFINE(gpio_worker, gpio_handler);
 
 // static struct led_work_s led_work;
 
-struct led_msg led_task = {
+static struct led_msg led_task = 
+{
         .startupAction = 1,
         .poweronAction = 1,
         .advertisingAction = 0,
         .errorAction = 0
 };
 
-struct advertise_msg advertise_task = 
+static struct advertise_msg advertise_task = 
 {
-        .adv_config = 1,
+        .adv_config = 0,
         .adv_start = 0,
         .adv_stop = 0,
-        .adv_update =0
+        .adv_update = 0
 };
 
 struct wq_info wq_led_handler1 = {.handle = 1};
@@ -112,6 +113,8 @@ void advertise_cb(const struct zbus_channel *chan)
         LOG_INF("advertise_cb works");
         wq_adv_handler1.chan = chan;
         LOG_INF("wq_adv_hanlder1.chan = %p", (void *)wq_adv_handler1.chan);
+        k_work_submit(&wq_adv_handler1.work);
+        
 }
 ZBUS_LISTENER_DEFINE(advertise_handler1_lis, advertise_cb);
 
@@ -128,6 +131,7 @@ int main(void)
         // zbus_chan_pub(&led_chan, &led_task, K_SECONDS(1));
         
         k_work_init(&wq_led_handler1.work, wq_led_cb);
+        k_work_init(&wq_adv_handler1.work, wq_adv_cb);
         
         ret = zbus_chan_pub(&led_chan, &led_task, K_MSEC(200));
         if (ret != 0)

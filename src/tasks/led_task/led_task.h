@@ -2,13 +2,14 @@
 
 #include <zephyr/kernel.h>
 
+// This struct should move, maybe to main.c ??? Should be global
 struct wq_info {
 	struct k_work work;
 	const struct zbus_channel *chan;
 	uint8_t handle;
 };
 
-struct led_msg {
+static struct led_msg {
     int startupAction;
     int poweronAction;
     int advertisingAction;
