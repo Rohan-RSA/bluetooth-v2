@@ -20,7 +20,10 @@
         "zbus.h": "c",
         "util.h": "c",
         "util_macro.h": "c",
-        "advertise_task.h": "c"
+        "advertise_task.h": "c",
+        "uuid.h": "c",
+        "gap.h": "c",
+        "hci.h": "c"
     },
     "cmake.configureOnOpen": false,
     "nrf-connect.debugging.bindings": {

@@ -2,6 +2,11 @@
 
 void wq_adv_cb(struct k_work *item);
 
+
+// struct bt_le_adv_param ft_params;
+
+
+
 static struct advertise_msg
 {
     int adv_config;
@@ -9,6 +14,7 @@ static struct advertise_msg
     int adv_update;
     int adv_stop;
 };
+
 
 
 
