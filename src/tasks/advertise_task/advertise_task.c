@@ -116,25 +116,31 @@ void wq_adv_cb(struct k_work *item)
     LOG_INF("Advertising msg processed by WORK QUEUE handler wq_adv_cb with handle %u: config advertising = %d, start advertising = %d, update advertising = %d, stop advertising = %d",
     adv->handle, msg.adv_config, msg.adv_start, msg.adv_update, msg.adv_stop);
     
-    ret = bt_enable(NULL);
-    if (ret != 0)
+    if (!bt_is_ready)
     {
-        LOG_ERR("Bluetooth init failed (err %d)", ret);
+        ret = bt_enable(NULL);
+        if (ret != 0)
+        {
+            LOG_ERR("Bluetooth init failed (err %d)", ret);
 
-        // led_task.errorAction = 1;
-     
-        // ret = zbus_chan_pub(&ble_chan, &led_task, K_MSEC(200));
-        // if (ret != 0)
-        // {
-        //     LOG_ERR("Could not publish error led task to ble channel");
-        //     return 0;
-        // }
+            // led_task.errorAction = 1;
+        
+            // ret = zbus_chan_pub(&ble_chan, &led_task, K_MSEC(200));
+            // if (ret != 0)
+            // {
+            //     LOG_ERR("Could not publish error led task to ble channel");
+            //     return 0;
+            // }
 
-        // LOG_INF("Published led error task to ble channel");
-        return 0;
+            // LOG_INF("Published led error task to ble channel");
+            return 0;
+        }
+
+        LOG_INF("BLE init completed.");
     }
+    
 
-    LOG_INF("BLE init completed.");
+
 
     led_task.advertisingAction = 1;
     ret = zbus_chan_pub(&ble_chan, &led_task, K_MSEC(200));
