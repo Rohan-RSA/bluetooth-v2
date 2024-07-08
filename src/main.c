@@ -81,7 +81,7 @@ ZBUS_CHAN_DEFINE(led_chan,
 // led_service_listener,
 
 ZBUS_CHAN_DEFINE(ble_chan,
-                struct bt_data,
+                struct advertise_msg,
                 NULL,
                 NULL,
                 ZBUS_OBSERVERS(advertise_handler1_lis),
@@ -110,11 +110,9 @@ ZBUS_LISTENER_DEFINE(delay_handler1_lis, dh1_cb);
 
 void advertise_cb(const struct zbus_channel *chan)
 {
-	LOG_INF("advertise_cb works");
 	wq_adv_handler1.chan = chan;
 	LOG_INF("wq_adv_hanlder1.chan = %p", (void *)wq_adv_handler1.chan);
 	k_work_submit(&wq_adv_handler1.work);
-        
 }
 ZBUS_LISTENER_DEFINE(advertise_handler1_lis, advertise_cb);
 
@@ -137,12 +135,14 @@ int main(void)
 	if (ret != 0)
 	{
 		LOG_ERR("Could not publish to led channel");
+		return 0;
 	}
 
 	ret = zbus_chan_pub(&ble_chan, &advertise_task, K_MSEC(200));
 	if (ret != 0)
 	{
 		LOG_ERR("Could not publish to ble channel");
+		return 0;
 	}
 	
 	k_timer_start(&timer_1s, K_SECONDS(2), K_SECONDS(2));

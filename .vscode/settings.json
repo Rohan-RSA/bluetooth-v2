@@ -23,7 +23,9 @@
         "advertise_task.h": "c",
         "uuid.h": "c",
         "gap.h": "c",
-        "hci.h": "c"
+        "hci.h": "c",
+        "addr.h": "c",
+        "hci_types.h": "c"
     },
     "cmake.configureOnOpen": false,
     "nrf-connect.debugging.bindings": {
