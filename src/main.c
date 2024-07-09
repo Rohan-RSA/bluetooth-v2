@@ -51,7 +51,7 @@ K_WORK_DEFINE(gpio_worker, gpio_handler);
 
 // static struct led_work_s led_work;
 
-static struct led_msg led_task = 
+struct led_msg led_task = 
 {
 	.startupAction = 1,
 	.poweronAction = 1,
@@ -61,7 +61,7 @@ static struct led_msg led_task =
 
 struct advertise_msg advertise_task = 
 {
-	.adv_config = 0,
+	.adv_config = 1,
 	.adv_start = 0,
 	.adv_stop = 0,
 	.adv_update = 0
@@ -90,11 +90,6 @@ ZBUS_CHAN_DEFINE(ble_chan,
 
 void timer_1s_handler(struct k_timer *timer_1s)
 {
-	led_task.startupAction = 0;
-	led_task.poweronAction = 1;
-	led_task.errorAction = 0;
-	led_task.advertisingAction = 0;
-
 	zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
 
 	// k_work_submit(&wq_led_handler1.work);
@@ -146,6 +141,8 @@ int main(void)
 	}
 	
 	k_timer_start(&timer_1s, K_SECONDS(2), K_SECONDS(2));
+
+	led_task.startupAction = 0;
 	
 	return 0;
 }

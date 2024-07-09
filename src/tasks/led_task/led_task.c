@@ -13,16 +13,16 @@
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
 ZBUS_CHAN_DECLARE(led_chan);
-
+struct led_msg msg;
 // This is the sys work queue async callback/handler function
 void wq_led_cb(struct k_work *item)
 {
-        struct led_msg msg;
+        
         struct wq_info *led = CONTAINER_OF(item, struct wq_info, work);
 
         zbus_chan_read(led->chan, &msg, K_MSEC(200));
 
-        LOG_DBG("LED msg processed by WORK QUEUE handler dh%u: startup action = %d, power on action = %d,advertising action = %d, error action = %d",
+        LOG_INF("LED msg processed by WORK QUEUE handler dh%u: startup action = %d, power on action = %d,advertising action = %d, error action = %d",
         led->handle, msg.startupAction, msg.poweronAction, msg.advertisingAction, msg.errorAction);
         // LOG_INF("The work item received is %d", led->work);
 
@@ -46,7 +46,8 @@ void wq_led_cb(struct k_work *item)
                 gpio_pin_set_dt(&power_led, 0);
                 gpio_pin_set_dt(&ble_led, 0);
                 gpio_pin_set_dt(&conn_led, 0); 
-                msg.startupAction = 0; 
+                msg.startupAction = 0;
+                
         }
         if (msg.poweronAction == 1)
         {
@@ -55,6 +56,13 @@ void wq_led_cb(struct k_work *item)
                 k_msleep(20);
                 gpio_pin_set_dt(&power_led, 0);
         }
+        if (msg.advertisingAction == 1)
+        {
+                gpio_pin_toggle_dt(&ble_led);
+                k_msleep(100);
+                gpio_pin_toggle_dt(&ble_led);
+        }
+        
 
 };
 

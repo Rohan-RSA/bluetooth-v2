@@ -12,12 +12,13 @@
 #include "led_task/led_task.h"
 
 #define LOG_MODULE_NAME advertise_task
-#define ADVERTISING_START_WORD                  0x5321                           //FT
-#define ADVERTISING_COMPANY_IDENTIFIER          0x4654                           //S!
+#define ADVERTISING_START_WORD                  0x5321    //FT
+#define ADVERTISING_COMPANY_IDENTIFIER          0x4654    //S!
 
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
 ZBUS_CHAN_DECLARE(ble_chan);
+ZBUS_CHAN_DECLARE(led_chan);
 
 char *advertising_friendly_name[] = {"FT_PTO", "FT_PRESSURE","FT_FLOW"};
 char *advertising_sensor_type[] = {0x0001, 0x0002, 0x0003};
@@ -91,72 +92,73 @@ struct bt_data pto_ad[] =
 
 void wq_adv_cb(struct k_work *item)
 {
-    int ret;
-    const struct advertise_msg msg;
-    struct wq_info *adv = CONTAINER_OF(item, struct wq_info, work);
+  int ret;
+  const struct advertise_msg msg;
+  struct wq_info *adv = CONTAINER_OF(item, struct wq_info, work);
 
-    advertising_packet.advertising_header.advertising_sensor_type = 0x002;
-    const struct bt_le_adv_param ft_params = BT_LE_ADV_PARAM_INIT(  BT_LE_ADV_OPT_USE_IDENTITY |
+  advertising_packet.advertising_header.advertising_sensor_type = 0x002;
+  const struct bt_le_adv_param ft_params = BT_LE_ADV_PARAM_INIT(BT_LE_ADV_OPT_USE_IDENTITY |
                                                                 BT_LE_ADV_OPT_EXT_ADV | BT_LE_ADV_OPT_CODED,
                                                                 BT_GAP_ADV_SLOW_INT_MIN,
                                                                 BT_GAP_ADV_SLOW_INT_MAX,
                                                                 NULL);
 
-    static struct led_msg;
-    static struct led_msg led_task = 
+  static struct led_msg;
+  static struct led_msg led_task = 
+  {
+      .startupAction = 0,
+      .poweronAction = 0,
+      .advertisingAction = 0,
+      .errorAction = 0
+  };
+
+  zbus_chan_read(adv->chan, &msg, K_MSEC(200));
+
+  LOG_INF("Advertising msg processed by WORK QUEUE handler wq_adv_cb with handle %u: config advertising = %d, start advertising = %d, update advertising = %d, stop advertising = %d",
+  adv->handle, msg.adv_config, msg.adv_start, msg.adv_update, msg.adv_stop);
+  
+  if (msg.adv_config)
+  {
+    if (bt_is_ready)
     {
-        .startupAction = 0,
-        .poweronAction = 0,
-        .advertisingAction = 0,
-        .errorAction = 0
-    };
+      ret = bt_enable(NULL);
+      if (ret != 0)
+      {
+        LOG_ERR("Bluetooth init failed (err %d)", ret);
 
-    zbus_chan_read(adv->chan, &msg, K_MSEC(200));
-
-    LOG_INF("Advertising msg processed by WORK QUEUE handler wq_adv_cb with handle %u: config advertising = %d, start advertising = %d, update advertising = %d, stop advertising = %d",
-    adv->handle, msg.adv_config, msg.adv_start, msg.adv_update, msg.adv_stop);
+        led_task.errorAction = 1;
     
-    if (!bt_is_ready)
-    {
-        ret = bt_enable(NULL);
+        ret = zbus_chan_pub(&led_chan, &led_task, K_MSEC(200));
         if (ret != 0)
         {
-            LOG_ERR("Bluetooth init failed (err %d)", ret);
-
-            // led_task.errorAction = 1;
-        
-            // ret = zbus_chan_pub(&ble_chan, &led_task, K_MSEC(200));
-            // if (ret != 0)
-            // {
-            //     LOG_ERR("Could not publish error led task to ble channel");
-            //     return 0;
-            // }
-
-            // LOG_INF("Published led error task to ble channel");
+            LOG_ERR("Could not publish error led task to ble channel");
             return 0;
         }
-
-        LOG_INF("BLE init completed.");
-    }
-    
-
-
-
-    led_task.advertisingAction = 1;
-    ret = zbus_chan_pub(&ble_chan, &led_task, K_MSEC(200));
-    if (ret != 0)
-    {
-        LOG_ERR("Could not publish to ble channel");
+        LOG_INF("Published led error task to ble channel");
         return 0;
+      }
+      LOG_INF("BLE init completed.");
     }
-    
-    // ret = bt_le_ext_adv_create(&ft_params, NULL, &ft_adv);
-    // if (ret)
-    // {
-    //     LOG_ERR("Failed to create advertiser set (err %d) \n", ret);
-    //     return ret;
-    // }
-    // LOG_INF("Created extended advertising set ft_adv: %p", (void*) ft_adv);
+    LOG_INF("ADV config done");
+  }
+  
+  ret = bt_le_ext_adv_create(&ft_params, NULL, &ft_adv);
+  if (ret)
+  {
+    LOG_ERR("Failed to create advertiser set (err %d) \n", ret);
+    return ret;
+  }
+  LOG_INF("Created extended advertising set ft_adv: %p", (void*) ft_adv);
+
+
+
+  //   led_task.advertisingAction = 1;
+  // ret = zbus_chan_pub(&led_chan, &led_task, K_MSEC(200));
+  // if (ret != 0)
+  // {
+  //   LOG_ERR("Could not publish to ble channel");
+  //   return 0;
+  // }
     
 
 };
