@@ -44,12 +44,7 @@
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
 void gpio_handler(struct k_work *work);
-// void led_handler(struct k_work *work);
-
 K_WORK_DEFINE(gpio_worker, gpio_handler);
-// K_WORK_DEFINE(led_worker, led_handler);
-
-// static struct led_work_s led_work;
 
 struct led_msg led_task = 
 {
@@ -68,7 +63,7 @@ struct advertise_msg advertise_task =
 };
 
 struct wq_info wq_led_handler1 = {.handle = 1};
-struct wq_info wq_adv_handler1 = {.handle = 2};
+// struct wq_info wq_adv_handler1 = {.handle = 2};
 // static struct wq_info wq_led_handler3 = {.handle = 3};
 
 ZBUS_CHAN_DEFINE(led_chan,
@@ -78,21 +73,18 @@ ZBUS_CHAN_DEFINE(led_chan,
                 ZBUS_OBSERVERS(delay_handler1_lis),
                 ZBUS_MSG_INIT(0)
 );
-// led_service_listener,
 
 ZBUS_CHAN_DEFINE(ble_chan,
                 struct advertise_msg,
                 NULL,
                 NULL,
-                ZBUS_OBSERVERS(advertise_handler1_lis),
+                ZBUS_OBSERVERS(adv_init_sub),
                 ZBUS_MSG_INIT(0)
 );
 
 void timer_1s_handler(struct k_timer *timer_1s)
 {
 	zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
-
-	// k_work_submit(&wq_led_handler1.work);
 }
 K_TIMER_DEFINE(timer_1s, timer_1s_handler, NULL);
 
@@ -103,14 +95,6 @@ void dh1_cb(const struct zbus_channel *chan)
 }
 ZBUS_LISTENER_DEFINE(delay_handler1_lis, dh1_cb);
 
-void advertise_cb(const struct zbus_channel *chan)
-{
-	wq_adv_handler1.chan = chan;
-	LOG_INF("wq_adv_hanlder1.chan = %p", (void *)wq_adv_handler1.chan);
-	k_work_submit(&wq_adv_handler1.work);
-}
-ZBUS_LISTENER_DEFINE(advertise_handler1_lis, advertise_cb);
-
 int main(void)
 {
 	LOG_INF("FT_BLE STARTING UP");
@@ -120,12 +104,8 @@ int main(void)
 	// Once off task
 	k_work_submit(&gpio_worker);
 
-	// Send message to do the start-up LED sequence (this is synchronous and blocking?)
-	// zbus_chan_pub(&led_chan, &led_task, K_SECONDS(1));
-	
 	k_work_init(&wq_led_handler1.work, wq_led_cb);
-	k_work_init(&wq_adv_handler1.work, wq_adv_cb);
-	
+
 	ret = zbus_chan_pub(&led_chan, &led_task, K_MSEC(200));
 	if (ret != 0)
 	{

@@ -25,7 +25,8 @@
         "gap.h": "c",
         "hci.h": "c",
         "addr.h": "c",
-        "hci_types.h": "c"
+        "hci_types.h": "c",
+        "buf.h": "c"
     },
     "cmake.configureOnOpen": false,
     "nrf-connect.debugging.bindings": {
