@@ -43,9 +43,6 @@
 #define LOG_MODULE_NAME         main
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
-// extern void ble_init(void *, void *, void *);
-
-
 void gpio_handler(struct k_work *work);
 K_WORK_DEFINE(gpio_worker, gpio_handler);
 
@@ -66,8 +63,6 @@ struct advertise_msg advertise_task =
 };
 
 struct wq_info wq_led_handler1 = {.handle = 1};
-// struct wq_info wq_adv_handler1 = {.handle = 2};
-// static struct wq_info wq_led_handler3 = {.handle = 3};
 
 ZBUS_CHAN_DEFINE(led_chan,
                 struct led_msg,

@@ -14,6 +14,7 @@
 #define LOG_MODULE_NAME advertise_task
 #define ADVERTISING_START_WORD                  0x5321    //FT
 #define ADVERTISING_COMPANY_IDENTIFIER          0x4654    //S!
+#define DEVICE_NAME BT_DATA_NAME_COMPLETE
 
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
@@ -113,32 +114,46 @@ static void adv_init_task(void)
                                                                   BT_GAP_ADV_SLOW_INT_MAX,
                                                                   NULL);
     
-    ret = bt_enable(NULL);
-    if (ret != 0) LOG_ERR("Bluetooth init failed (err %d)", ret);
-
-    if (IS_ENABLED(CONFIG_SETTINGS))
+    if (msg.adv_config == 1)
     {
-      settings_load();
-    }
-    LOG_INF("BLE enable completed.");
+      ret = bt_enable(NULL);
+      if (ret != 0) LOG_ERR("Bluetooth init failed (err %d)", ret);
 
-    if (bt_is_ready)
-    {
-      ret = bt_le_ext_adv_create(&ft_params, NULL, &ft_adv);
-      if (ret)
+      if (IS_ENABLED(CONFIG_SETTINGS))
       {
-        LOG_ERR("Failed to create advertiser set (err %d)", ret);
-        return ret;
+        settings_load();
       }
-      LOG_INF("Created extended advertising set ft_adv: %p", (void*) ft_adv);
+      LOG_INF("BLE enable completed.");
 
-      ret = bt_le_ext_adv_start(ft_adv, NULL);
-      if (ret != 0)
+      if (bt_is_ready)
       {
-        LOG_ERR("Failed to start advertising set %p with error code %d", (void*) ft_adv, ret);
+        ret = bt_le_ext_adv_create(&ft_params, NULL, &ft_adv);
+        if (ret != 0)
+        {
+          LOG_ERR("Failed to create advertiser set (err %d)", ret);
+          return ret;
+        }
+        LOG_INF("Created extended advertising set ft_adv: %p", (void*) ft_adv);
+
+        ret = bt_le_ext_adv_set_data(ft_adv, pto_ad, ARRAY_SIZE(pto_ad), NULL, 0);
+        if (ret !=0 )
+        {
+          LOG_ERR("Failed to set advertiser data (err %d)", ret);
+          return ret;
+        }
+        LOG_INF("Succesfully set advertising data %p for set %p",  pto_ad ,(void*) ft_adv);  
+
+        ret = bt_le_ext_adv_start(ft_adv, NULL);
+        if (ret != 0)
+        {
+          LOG_ERR("Failed to start advertising set %p with error code %d", (void*) ft_adv, ret);
+        }
+        LOG_INF("Succesfully started advertising set %p", (void*) ft_adv);      
       }
-      LOG_INF("Succesfully started advertising set %p", (void*) ft_adv);      
     }
+    
+
+
   }
 }
 K_THREAD_DEFINE(adv_init_id, 1024, adv_init_task, NULL, NULL, NULL, 3, 0, 0);
