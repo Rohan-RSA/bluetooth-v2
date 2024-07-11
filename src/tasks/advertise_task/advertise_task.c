@@ -116,19 +116,38 @@ static void adv_init_task(void)
     ret = bt_enable(NULL);
     if (ret != 0) LOG_ERR("Bluetooth init failed (err %d)", ret);
 
-    LOG_INF("BLE init completed.");
-
-    ret = bt_le_ext_adv_create(&ft_params, NULL, &ft_adv);
-    if (ret)
+    if (IS_ENABLED(CONFIG_SETTINGS))
     {
-      LOG_ERR("Failed to create advertiser set (err %d)", ret);
-      return ret;
+      settings_load();
     }
-    LOG_INF("Created extended advertising set ft_adv: %p", (void*) ft_adv);
+    LOG_INF("BLE enable completed.");
 
+    if (bt_is_ready)
+    {
+      ret = bt_le_ext_adv_create(&ft_params, NULL, &ft_adv);
+      if (ret)
+      {
+        LOG_ERR("Failed to create advertiser set (err %d)", ret);
+        return ret;
+      }
+      LOG_INF("Created extended advertising set ft_adv: %p", (void*) ft_adv);
+
+      ret = bt_le_ext_adv_start(ft_adv, NULL);
+      if (ret != 0)
+      {
+        LOG_ERR("Failed to start advertising set %p with error code %d", (void*) ft_adv, ret);
+      }
+      LOG_INF("Succesfully started advertising set %p", (void*) ft_adv);      
+    }
   }
 }
 K_THREAD_DEFINE(adv_init_id, 1024, adv_init_task, NULL, NULL, NULL, 3, 0, 0);
+
+// int bt_ready(int ret)
+// {
+
+
+// }
 
 // void wq_adv_cb(struct k_work *item)
 // {

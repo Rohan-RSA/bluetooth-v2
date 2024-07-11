@@ -26,7 +26,9 @@
         "hci.h": "c",
         "addr.h": "c",
         "hci_types.h": "c",
-        "buf.h": "c"
+        "buf.h": "c",
+        "iterable_sections.h": "c",
+        "settings_priv.h": "c"
     },
     "cmake.configureOnOpen": false,
     "nrf-connect.debugging.bindings": {

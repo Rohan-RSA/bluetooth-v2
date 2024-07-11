@@ -43,6 +43,9 @@
 #define LOG_MODULE_NAME         main
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
+// extern void ble_init(void *, void *, void *);
+
+
 void gpio_handler(struct k_work *work);
 K_WORK_DEFINE(gpio_worker, gpio_handler);
 
@@ -126,3 +129,13 @@ int main(void)
 	
 	return 0;
 }
+
+
+// void ble_init(void *, void *, void *)
+// {
+
+// }
+// K_THREAD_DEFINE(ble_init_thread, STACK_SIZE,
+// 				ble_init, NULL, NULL, NULL,
+// 				PRIORITY, 0, 0)
+
