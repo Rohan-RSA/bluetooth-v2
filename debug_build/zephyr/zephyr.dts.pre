@@ -1243,7 +1243,7 @@ zephyr_udc0: &usbd {
   };
   button4: button_4 {
    gpios = <&gpio0 6 ((1 << 4) | (0 << 0))>;
-   label = "Rotary switch: 4";
+   label = "Rotary switch: 4 Unsupported pin????!!!!";
   };
  };
 

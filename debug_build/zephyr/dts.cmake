@@ -1421,7 +1421,7 @@ set_target_properties(devicetree_target PROPERTIES "DT_REG|/buttons/button_3|ADD
 set_target_properties(devicetree_target PROPERTIES "DT_REG|/buttons/button_3|SIZE" "")
 set_target_properties(devicetree_target PROPERTIES "DT_NODE|/buttons/button_4" TRUE)
 set_target_properties(devicetree_target PROPERTIES "DT_NODELABEL|button4" "/buttons/button_4")
-set_target_properties(devicetree_target PROPERTIES "DT_PROP|/buttons/button_4|label" "Rotary switch: 4")
+set_target_properties(devicetree_target PROPERTIES "DT_PROP|/buttons/button_4|label" "Rotary switch: 4 Unsupported pin????!!!!")
 set_target_properties(devicetree_target PROPERTIES "DT_REG|/buttons/button_4|NUM" "0")
 set_target_properties(devicetree_target PROPERTIES "DT_REG|/buttons/button_4|ADDR" "")
 set_target_properties(devicetree_target PROPERTIES "DT_REG|/buttons/button_4|SIZE" "")

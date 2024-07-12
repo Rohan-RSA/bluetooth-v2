@@ -100,12 +100,18 @@ static void adv_init_task(void)
   while (!zbus_sub_wait(&adv_init_sub, &chan, K_FOREVER))
   {
     int ret;
-    struct advertise_msg msg;
 
-    zbus_chan_read(chan, &msg, K_MSEC(200));
+    struct advertise_msg adv_msg;
+    struct advertise_sensor_type sensor_type;
 
-		LOG_INF("Advertise msg processed by THREAD handler adv_init_sub:config advertising = %d, start advertising = %d, update advertising = %d, stop advertising = %d",
-              msg.adv_config, msg.adv_start, msg.adv_update, msg.adv_stop);
+    zbus_chan_read(chan, &adv_msg, K_MSEC(200));
+    zbus_chan_read(chan, &sensor_type, K_MSEC(200));
+
+		LOG_INF("Advertise msg processed by THREAD handler adv_init_sub:\r\nconfig advertising = %d,\r\nstart advertising = %d,\r\nupdate advertising = %d,\r\nstop advertising = %d",
+              adv_msg.adv_config, adv_msg.adv_start, adv_msg.adv_update, adv_msg.adv_stop);
+
+    LOG_INF("Sensor type processed by THREAD handler adv_init_sub:\r\npto = %d,\r\npressure = %d,\r\nflow = %d",
+              sensor_type.pto, sensor_type.pressure, sensor_type.flow);
 
     advertising_packet.advertising_header.advertising_sensor_type = 0x002;
     const struct bt_le_adv_param ft_params = BT_LE_ADV_PARAM_INIT(BT_LE_ADV_OPT_USE_IDENTITY |
@@ -114,7 +120,7 @@ static void adv_init_task(void)
                                                                   BT_GAP_ADV_SLOW_INT_MAX,
                                                                   NULL);
     
-    if (msg.adv_config == 1)
+    if (adv_msg.adv_config == 1)
     {
       ret = bt_enable(NULL);
       if (ret != 0) LOG_ERR("Bluetooth init failed (err %d)", ret);

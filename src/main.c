@@ -44,7 +44,9 @@
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
 void gpio_handler(struct k_work *work);
+void rotary_handler(struct k_work *work);
 K_WORK_DEFINE(gpio_worker, gpio_handler);
+K_WORK_DEFINE(rotary_worker, rotary_handler);
 
 struct led_msg led_task = 
 {
@@ -101,6 +103,7 @@ int main(void)
 
 	// Once off task
 	k_work_submit(&gpio_worker);
+	k_work_submit(&rotary_worker);
 
 	k_work_init(&wq_led_handler1.work, wq_led_cb);
 

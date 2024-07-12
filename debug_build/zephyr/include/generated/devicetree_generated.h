@@ -2338,11 +2338,11 @@
 #define DT_N_S_buttons_S_button_4_P_gpios_FOREACH_PROP_ELEM_SEP_VARGS(fn, sep, ...) fn(DT_N_S_buttons_S_button_4, gpios, 0, __VA_ARGS__)
 #define DT_N_S_buttons_S_button_4_P_gpios_LEN 1
 #define DT_N_S_buttons_S_button_4_P_gpios_EXISTS 1
-#define DT_N_S_buttons_S_button_4_P_label "Rotary switch: 4"
-#define DT_N_S_buttons_S_button_4_P_label_STRING_UNQUOTED Rotary switch: 4
-#define DT_N_S_buttons_S_button_4_P_label_STRING_TOKEN Rotary_switch__4
-#define DT_N_S_buttons_S_button_4_P_label_STRING_UPPER_TOKEN ROTARY_SWITCH__4
-#define DT_N_S_buttons_S_button_4_P_label_IDX_0 "Rotary switch: 4"
+#define DT_N_S_buttons_S_button_4_P_label "Rotary switch: 4 Unsupported pin????!!!!"
+#define DT_N_S_buttons_S_button_4_P_label_STRING_UNQUOTED Rotary switch: 4 Unsupported pin????!!!!
+#define DT_N_S_buttons_S_button_4_P_label_STRING_TOKEN Rotary_switch__4_Unsupported_pin________
+#define DT_N_S_buttons_S_button_4_P_label_STRING_UPPER_TOKEN ROTARY_SWITCH__4_UNSUPPORTED_PIN________
+#define DT_N_S_buttons_S_button_4_P_label_IDX_0 "Rotary switch: 4 Unsupported pin????!!!!"
 #define DT_N_S_buttons_S_button_4_P_label_IDX_0_EXISTS 1
 #define DT_N_S_buttons_S_button_4_P_label_FOREACH_PROP_ELEM(fn) fn(DT_N_S_buttons_S_button_4, label, 0)
 #define DT_N_S_buttons_S_button_4_P_label_FOREACH_PROP_ELEM_SEP(fn, sep) fn(DT_N_S_buttons_S_button_4, label, 0)

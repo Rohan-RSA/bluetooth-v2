@@ -781,7 +781,7 @@
 		};
 		button4: button_4 {
 			gpios = < &gpio0 0x6 0x10 >;
-			label = "Rotary switch: 4";
+			label = "Rotary switch: 4 Unsupported pin????!!!!";
 		};
 	};
 	arduino_header: connector {

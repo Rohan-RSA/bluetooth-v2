@@ -10,4 +10,9 @@ static struct advertise_msg
     int adv_stop;
 };
 
-
+static struct advertise_sensor_type
+{
+    int pto;
+    int pressure;
+    int flow;
+};
