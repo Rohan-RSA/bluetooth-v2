@@ -149,5 +149,4 @@ void rotary_handler(struct k_work *work)
 	}
 
 	LOG_INF("Exiting rotary sensor select thread.");
-
 }

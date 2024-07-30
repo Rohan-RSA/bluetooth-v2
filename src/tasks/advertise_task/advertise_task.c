@@ -154,13 +154,14 @@ static void adv_init_task(void)
         {
           LOG_ERR("Failed to start advertising set %p with error code %d", (void*) ft_adv, ret);
         }
-        LOG_INF("Succesfully started advertising set %p", (void*) ft_adv);      
+        LOG_INF("Succesfully started advertising set %p", (void*) ft_adv);
+        return;
       }
+      return;
     }
-    
-
-
+    return;
   }
+  return;
 }
 K_THREAD_DEFINE(adv_init_id, 1024, adv_init_task, NULL, NULL, NULL, 3, 0, 0);
 

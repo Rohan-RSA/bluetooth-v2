@@ -2,7 +2,9 @@
 add_subdirectory(tasks/led_task)
 add_subdirectory(tasks/gpio_setup_task)
 add_subdirectory(tasks/advertise_task)
+add_subdirectory(tasks/ble_init_task)
 
 include_directories(tasks/gpio_setup_task)
 include_directories(tasks/led_task)
 include_directories(tasks/advertise_task)
+include_directories(tasks/ble_init_task)

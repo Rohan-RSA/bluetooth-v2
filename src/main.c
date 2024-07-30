@@ -35,6 +35,7 @@
 #include <led_task/led_task.h>
 #include <gpio_setup_task/gpio_setup_task.h>
 #include <advertise_task/advertise_task.h>
+#include <ble_init_task/ble_init_task.h>
 
 #define PRIORITY        7
 #define STACK_SIZE      2048
@@ -54,6 +55,11 @@ struct led_msg led_task =
 	.poweronAction = 1,
 	.advertisingAction = 0,
 	.errorAction = 0
+};
+
+struct ble_init_msg ble_init_task =
+{
+	.init = true
 };
 
 struct advertise_msg advertise_task = 
@@ -82,6 +88,14 @@ ZBUS_CHAN_DEFINE(ble_chan,
                 ZBUS_MSG_INIT(0)
 );
 
+ZBUS_CHAN_DEFINE(ble_init_chan,
+                struct ble_init_msg,
+                NULL,
+                NULL,
+                ZBUS_OBSERVERS(ble_init_sub),
+                ZBUS_MSG_INIT(0)
+);
+
 void timer_1s_handler(struct k_timer *timer_1s)
 {
 	zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
@@ -107,6 +121,8 @@ int main(void)
 
 	k_work_init(&wq_led_handler1.work, wq_led_cb);
 
+	zbus_chan_pub(&ble_init_chan, &ble_init_task, K_MSEC(200));
+
 	ret = zbus_chan_pub(&led_chan, &led_task, K_MSEC(200));
 	if (ret != 0)
 	{
@@ -127,13 +143,3 @@ int main(void)
 	
 	return 0;
 }
-
-
-// void ble_init(void *, void *, void *)
-// {
-
-// }
-// K_THREAD_DEFINE(ble_init_thread, STACK_SIZE,
-// 				ble_init, NULL, NULL, NULL,
-// 				PRIORITY, 0, 0)
-

@@ -28,7 +28,8 @@
         "hci_types.h": "c",
         "buf.h": "c",
         "iterable_sections.h": "c",
-        "settings_priv.h": "c"
+        "settings_priv.h": "c",
+        "ble_init_task.h": "c"
     },
     "cmake.configureOnOpen": false,
     "nrf-connect.debugging.bindings": {

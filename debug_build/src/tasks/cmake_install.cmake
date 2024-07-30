@@ -52,3 +52,8 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/tasks/advertise_task/cmake_install.cmake")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/tasks/ble_init_task/cmake_install.cmake")
+endif()
+
