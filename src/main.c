@@ -88,13 +88,13 @@ ZBUS_CHAN_DEFINE(ble_chan,
                 ZBUS_MSG_INIT(0)
 );
 
-ZBUS_CHAN_DEFINE(ble_init_chan,
-                struct ble_init_msg,
-                NULL,
-                NULL,
-                ZBUS_OBSERVERS(ble_init_sub),
-                ZBUS_MSG_INIT(0)
-);
+// ZBUS_CHAN_DEFINE(ble_init_chan,
+//                 struct ble_init_msg,
+//                 NULL,
+//                 NULL,
+//                 ZBUS_OBSERVERS(ble_init_sub),
+//                 ZBUS_MSG_INIT(0)
+// );
 
 void timer_1s_handler(struct k_timer *timer_1s)
 {

@@ -13,7 +13,6 @@
 
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
-ZBUS_CHAN_DECLARE(ble_init_chan);
 ZBUS_CHAN_DECLARE(ble_chan);
 ZBUS_CHAN_DECLARE(led_chan);
 
@@ -114,17 +113,20 @@ void rotary_handler(struct k_work *work)
     uint8_t ret;
     uint8_t r_input_1, r_input_2, r_input_3;
 
-    struct ble_init_msg ble_init_task =
+    static struct advertise_msg adv_msg =
     {
-        .init = true
+        .adv_config = 0,
+        .adv_start = 0,
+        .adv_stop = 0,
+        .adv_update = 0
     };
 
-    static struct advertise_sensor_type sensor_type =
-    {
-        .pto = 0,
-        .pressure = 0,
-        .flow = 0
-    };
+    // static struct advertise_sensor_type sensor_type =
+    // {
+    //     .pto = 0,
+    //     .pressure = 0,
+    //     .flow = 0
+    // };
 
     LOG_INF("Entered rotary switch work handler");
 
@@ -139,28 +141,62 @@ void rotary_handler(struct k_work *work)
     if (r_input_1 && r_input_2 && r_input_3 == 1)
 	{
 		LOG_INF("Rotary switch set to pto");
-        sensor_type.pto = 1;
+        // sensor_type.pto = 1;
+        adv_msg.pto = 1;
+        adv_msg.adv_config = 1;
 
-        ret = zbus_chan_pub(&ble_init_chan, &ble_init_task, K_MSEC(200));
+        ret = zbus_chan_pub(&ble_chan, &adv_msg, K_MSEC(200));
         if (ret != 0)
         {
-            LOG_ERR("Could not publish to ble init channel");
+            LOG_ERR("Could not publish adv_msg to ble channel");
             return 0;
         }
-        zbus_chan_pub(&ble_init_chan, &sensor_type, K_MSEC(200));
+        // ret = zbus_chan_pub(&ble_chan, &sensor_type, K_MSEC(200));
+        // if (ret != 0)
+        // {
+        //     LOG_ERR("Could not publish sensor_type to ble channel");
+        //     return 0;
+        // }
 	}
 	else if ((r_input_1 == 0) && (r_input_2 && r_input_3 == 1))
 	{
 		LOG_INF("Rotary switch set to pressure");
-        sensor_type.pressure = 1;
-        zbus_chan_pub(&ble_init_chan, &sensor_type, K_MSEC(200));
+        // sensor_type.pressure = 1;
+        adv_msg.pressure = 1;
+        adv_msg.adv_config = 1;
+
+        ret = zbus_chan_pub(&ble_chan, &adv_msg, K_MSEC(200));
+        if (ret != 0)
+        {
+            LOG_ERR("Could not publish adv_msg to ble channel");
+            return 0;
+        }
+        // ret = zbus_chan_pub(&ble_chan, &sensor_type, K_MSEC(200));
+        // if (ret != 0)
+        // {
+        //     LOG_ERR("Could not publish sensor_type to ble channel");
+        //     return 0;
+        // }
 	}
 	else if ((r_input_2 == 0) && (r_input_1 && r_input_3 == 1))
 	{
 		LOG_INF("Rotary switch set to flow");
-        sensor_type.flow = 1;
-        zbus_chan_pub(&ble_init_chan, &sensor_type, K_MSEC(200));
-	}
+        // sensor_type.flow = 1;
+        adv_msg.flow = 1;
+        adv_msg.adv_config = 1;
 
+        ret = zbus_chan_pub(&ble_chan, &adv_msg, K_MSEC(200));
+        if (ret != 0)
+        {
+            LOG_ERR("Could not publish adv_msg to ble channel");
+            return 0;
+        }
+        // ret = zbus_chan_pub(&ble_chan, &sensor_type, K_MSEC(200));
+        // if (ret != 0)
+        // {
+        //     LOG_ERR("Could not publish sensor_type to ble channel");
+        //     return 0;
+        // }
+	}
 	LOG_INF("Exiting rotary sensor select thread.");
 }

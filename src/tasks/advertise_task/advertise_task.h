@@ -8,6 +8,9 @@ static struct advertise_msg
     int adv_start;
     int adv_update;
     int adv_stop;
+    int pto;
+    int pressure;
+    int flow;
 };
 
 static struct advertise_sensor_type
@@ -16,3 +19,5 @@ static struct advertise_sensor_type
     int pressure;
     int flow;
 };
+
+

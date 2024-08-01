@@ -426,5 +426,3 @@ C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/tasks/gpio_set
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/tasks/gpio_setup_task/CMakeFiles/rebuild_cache.dir
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/tasks/advertise_task/CMakeFiles/edit_cache.dir
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/tasks/advertise_task/CMakeFiles/rebuild_cache.dir
-C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/tasks/ble_init_task/CMakeFiles/edit_cache.dir
-C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/tasks/ble_init_task/CMakeFiles/rebuild_cache.dir

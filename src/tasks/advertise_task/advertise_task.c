@@ -81,8 +81,6 @@ advertising_packet_t advertising_packet  =
 	// .advertising_header.advertising_sensor_type = ADVERTISING_SENSOR_TYPE,
 };
 
-struct bt_le_ext_adv *ft_adv;
-
 struct bt_data pto_ad[] =
 {
 	BT_DATA_BYTES(BT_DATA_FLAGS, (BT_LE_AD_GENERAL | BT_LE_AD_NO_BREDR)),		// If using extended advertising, no flags must be added
@@ -95,70 +93,80 @@ ZBUS_SUBSCRIBER_DEFINE(adv_init_sub, 4);
 
 static void adv_init_task(void)
 {
-  const struct zbus_channel *chan;
+	const struct zbus_channel *chan;
 
-  while (!zbus_sub_wait(&adv_init_sub, &chan, K_FOREVER))
-  {
-    int ret;
+  	while (!zbus_sub_wait(&adv_init_sub, &chan, K_FOREVER))
+	{
+		int ret;
 
-    struct advertise_msg adv_msg;
-    struct advertise_sensor_type sensor_type;
+		static struct bt_le_ext_adv *ft_adv;
+		static struct advertise_msg adv_msg;
 
-    zbus_chan_read(chan, &adv_msg, K_MSEC(200));
-    zbus_chan_read(chan, &sensor_type, K_MSEC(200));
+		LOG_INF("ft_adv is: %d", &ft_adv);
 
+		zbus_chan_read(chan, &adv_msg, K_MSEC(200));
 		LOG_INF("Advertise msg processed by THREAD handler adv_init_sub:\r\nconfig advertising = %d,\r\nstart advertising = %d,\r\nupdate advertising = %d,\r\nstop advertising = %d",
-              adv_msg.adv_config, adv_msg.adv_start, adv_msg.adv_update, adv_msg.adv_stop);
+				adv_msg.adv_config, adv_msg.adv_start, adv_msg.adv_update, adv_msg.adv_stop);
+		LOG_INF("Sensor type processed by THREAD handler adv_init_sub:\r\npto = %d,\r\npressure = %d,\r\nflow = %d",
+				adv_msg.pto, adv_msg.pressure, adv_msg.flow);
 
-    LOG_INF("Sensor type processed by THREAD handler adv_init_sub:\r\npto = %d,\r\npressure = %d,\r\nflow = %d",
-              sensor_type.pto, sensor_type.pressure, sensor_type.flow);
+		advertising_packet.advertising_header.advertising_sensor_type = 0x002;
+		
+		if (adv_msg.adv_config == 1)
+		{
+			const struct bt_le_adv_param ft_params = BT_LE_ADV_PARAM_INIT(	BT_LE_ADV_OPT_USE_IDENTITY | BT_LE_ADV_OPT_CONNECTABLE |
+																			BT_LE_ADV_OPT_EXT_ADV | BT_LE_ADV_OPT_CODED,
+																			BT_GAP_ADV_SLOW_INT_MIN,
+																			BT_GAP_ADV_SLOW_INT_MAX,
+																			NULL);
 
-    advertising_packet.advertising_header.advertising_sensor_type = 0x002;
-    const struct bt_le_adv_param ft_params = BT_LE_ADV_PARAM_INIT(BT_LE_ADV_OPT_USE_IDENTITY |
-                                                                  BT_LE_ADV_OPT_EXT_ADV | BT_LE_ADV_OPT_CODED,
-                                                                  BT_GAP_ADV_SLOW_INT_MIN,
-                                                                  BT_GAP_ADV_SLOW_INT_MAX,
-                                                                  NULL);
-    
-    if (adv_msg.adv_config == 1)
-    {
-      ret = bt_enable(NULL);
-      if (ret != 0) LOG_ERR("Bluetooth init failed (err %d)", ret);
+			ret = bt_enable(NULL);
+			if (ret != 0) LOG_ERR("Bluetooth init failed (err %d)", ret);
+			
+			if (IS_ENABLED(CONFIG_SETTINGS))
+			{
+				settings_load();
+			}
+			LOG_INF("BLE enable completed.");
 
-      if (IS_ENABLED(CONFIG_SETTINGS))
-      {
-        settings_load();
-      }
-      LOG_INF("BLE enable completed.");
+			if (bt_is_ready)
+			{
+				ret = bt_le_ext_adv_create(&ft_params, NULL, &ft_adv);
+				if (ret != 0)
+				{
+					LOG_ERR("Failed to create advertiser set (err %d)", ret);
+					return ret;
+				}
+				LOG_INF("Created extended advertising set ft_adv: %p", (void*) ft_adv);
+			}
+			adv_msg.adv_start = 1;
+			adv_msg.adv_config = 0;
+		}
+		if (adv_msg.adv_start == 1)
+		{
+			if (bt_is_ready)
+			{
+				ret = bt_le_ext_adv_set_data(ft_adv, pto_ad, ARRAY_SIZE(pto_ad), NULL, 0);
+				if (ret !=0 )
+				{
+				LOG_ERR("Failed to set advertiser data (err %d)", ret);
+				return ret;
+				}
+				LOG_INF("Succesfully set advertising data %p for set %p",  pto_ad ,(void*) ft_adv);  
 
-      if (bt_is_ready)
-      {
-        ret = bt_le_ext_adv_create(&ft_params, NULL, &ft_adv);
-        if (ret != 0)
-        {
-          LOG_ERR("Failed to create advertiser set (err %d)", ret);
-          return ret;
-        }
-        LOG_INF("Created extended advertising set ft_adv: %p", (void*) ft_adv);
+				ret = bt_le_ext_adv_start(ft_adv, NULL);
+				if (ret != 0)
+				{
+				LOG_ERR("Failed to start advertising set %p with error code %d", (void*) ft_adv, ret);
+				}
+				LOG_INF("Succesfully started advertising set %p", (void*) ft_adv);
+				adv_msg.adv_start = 0;
+				return;
+			}
 
-        ret = bt_le_ext_adv_set_data(ft_adv, pto_ad, ARRAY_SIZE(pto_ad), NULL, 0);
-        if (ret !=0 )
-        {
-          LOG_ERR("Failed to set advertiser data (err %d)", ret);
-          return ret;
-        }
-        LOG_INF("Succesfully set advertising data %p for set %p",  pto_ad ,(void*) ft_adv);  
-
-        ret = bt_le_ext_adv_start(ft_adv, NULL);
-        if (ret != 0)
-        {
-          LOG_ERR("Failed to start advertising set %p with error code %d", (void*) ft_adv, ret);
-        }
-        LOG_INF("Succesfully started advertising set %p", (void*) ft_adv);
-        return;
-      }
-      return;
-    }
+		
+		return;
+		}
     return;
   }
   return;
