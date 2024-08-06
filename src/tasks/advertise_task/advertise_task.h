@@ -6,11 +6,13 @@ static struct advertise_msg
 {
     int adv_config;
     int adv_start;
+    int adv_restart;
     int adv_update;
     int adv_stop;
     int pto;
     int pressure;
     int flow;
+    int sensor_state
 };
 
 static struct advertise_sensor_type

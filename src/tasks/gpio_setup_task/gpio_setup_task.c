@@ -29,9 +29,32 @@ const struct gpio_dt_spec rotary4           = GPIO_DT_SPEC_GET(DT_NODELABEL(butt
 
 struct gpio_callback pto_cb_data;
 
+static struct advertise_msg adv_msg =
+{
+    .adv_config = 0,
+    .adv_start = 0,
+    .adv_stop = 0,
+    .adv_update = 0,
+    // .adv_stop = 0,
+    // .pto = 0,
+    // .pressure = 0,
+    // .flow = 0,
+    .sensor_state = 0
+};
+
 void pto_callback(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
-    LOG_INF("PTO Callback works");
+    // uint8_t pto_state;
+
+    LOG_INF("PTO callback");
+
+    adv_msg.sensor_state = gpio_pin_get_dt(&pto_sensor_pin);
+
+    LOG_INF("adv_msg.sensor_state from gpio setup task = %d", adv_msg.sensor_state);
+
+    zbus_chan_pub(&ble_chan, &adv_msg, K_NO_WAIT);
+    // zbus_chan_notify(&ble_chan, K_NO_WAIT);
+
 }
 
 void gpio_handler(struct k_work *work)
@@ -113,21 +136,6 @@ void rotary_handler(struct k_work *work)
     uint8_t ret;
     uint8_t r_input_1, r_input_2, r_input_3;
 
-    static struct advertise_msg adv_msg =
-    {
-        .adv_config = 0,
-        .adv_start = 0,
-        .adv_stop = 0,
-        .adv_update = 0
-    };
-
-    // static struct advertise_sensor_type sensor_type =
-    // {
-    //     .pto = 0,
-    //     .pressure = 0,
-    //     .flow = 0
-    // };
-
     LOG_INF("Entered rotary switch work handler");
 
 	// Check each pin state
@@ -141,7 +149,6 @@ void rotary_handler(struct k_work *work)
     if (r_input_1 && r_input_2 && r_input_3 == 1)
 	{
 		LOG_INF("Rotary switch set to pto");
-        // sensor_type.pto = 1;
         adv_msg.pto = 1;
         adv_msg.adv_config = 1;
 
@@ -151,17 +158,10 @@ void rotary_handler(struct k_work *work)
             LOG_ERR("Could not publish adv_msg to ble channel");
             return 0;
         }
-        // ret = zbus_chan_pub(&ble_chan, &sensor_type, K_MSEC(200));
-        // if (ret != 0)
-        // {
-        //     LOG_ERR("Could not publish sensor_type to ble channel");
-        //     return 0;
-        // }
 	}
 	else if ((r_input_1 == 0) && (r_input_2 && r_input_3 == 1))
 	{
 		LOG_INF("Rotary switch set to pressure");
-        // sensor_type.pressure = 1;
         adv_msg.pressure = 1;
         adv_msg.adv_config = 1;
 
@@ -171,17 +171,10 @@ void rotary_handler(struct k_work *work)
             LOG_ERR("Could not publish adv_msg to ble channel");
             return 0;
         }
-        // ret = zbus_chan_pub(&ble_chan, &sensor_type, K_MSEC(200));
-        // if (ret != 0)
-        // {
-        //     LOG_ERR("Could not publish sensor_type to ble channel");
-        //     return 0;
-        // }
 	}
 	else if ((r_input_2 == 0) && (r_input_1 && r_input_3 == 1))
 	{
 		LOG_INF("Rotary switch set to flow");
-        // sensor_type.flow = 1;
         adv_msg.flow = 1;
         adv_msg.adv_config = 1;
 
@@ -191,12 +184,6 @@ void rotary_handler(struct k_work *work)
             LOG_ERR("Could not publish adv_msg to ble channel");
             return 0;
         }
-        // ret = zbus_chan_pub(&ble_chan, &sensor_type, K_MSEC(200));
-        // if (ret != 0)
-        // {
-        //     LOG_ERR("Could not publish sensor_type to ble channel");
-        //     return 0;
-        // }
 	}
 	LOG_INF("Exiting rotary sensor select thread.");
 }

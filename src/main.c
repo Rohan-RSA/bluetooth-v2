@@ -121,13 +121,6 @@ int main(void)
 
 	k_work_init(&wq_led_handler1.work, wq_led_cb);
 
-	// ret = zbus_chan_pub(&ble_init_chan, &ble_init_task, K_MSEC(200));
-	// if (ret != 0)
-	// {
-	// 	LOG_ERR("Could not publish to ble init channel");
-	// 	return 0;
-	// }
-
 	ret = zbus_chan_pub(&led_chan, &led_task, K_MSEC(200));
 	if (ret != 0)
 	{
@@ -135,13 +128,6 @@ int main(void)
 		return 0;
 	}
 
-	// ret = zbus_chan_pub(&ble_chan, &advertise_task, K_MSEC(200));
-	// if (ret != 0)
-	// {
-	// 	LOG_ERR("Could not publish to ble channel");
-	// 	return 0;
-	// }
-	
 	k_timer_start(&timer_1s, K_SECONDS(2), K_SECONDS(2));
 
 	led_task.startupAction = 0;
