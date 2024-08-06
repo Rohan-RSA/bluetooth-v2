@@ -118,7 +118,6 @@ static void adv_init_task(void)
 		if (&ble_chan == chan)
 		{
 			int ret;
-
 			static struct bt_le_ext_adv *ft_adv;
 			// static struct advertise_msg adv_msg;
 
@@ -155,7 +154,6 @@ static void adv_init_task(void)
 					if (ret != 0)
 					{
 						LOG_ERR("Failed to create advertiser set (err %d)", ret);
-						return ret;
 					}
 					LOG_INF("Created extended advertising set ft_adv: %p", (void*) ft_adv);
 				}
@@ -174,7 +172,6 @@ static void adv_init_task(void)
 						if (ret !=0 )
 						{
 							LOG_ERR("Failed to set advertiser data (err %d)", ret);
-							return ret;
 						}
 						LOG_INF("Succesfully set advertising data %p for set %p",  pto_ad ,(void*) ft_adv);  
 
@@ -185,7 +182,6 @@ static void adv_init_task(void)
 						}
 						LOG_INF("Succesfully started advertising set %p", (void*) ft_adv);
 						adv_msg.adv_start = 0;
-						return;
 					}
 					if (adv_msg.pressure == 1)
 					{
@@ -195,7 +191,6 @@ static void adv_init_task(void)
 						if (ret !=0 )
 						{
 							LOG_ERR("Failed to set advertiser data (err %d)", ret);
-							return ret;
 						}
 						LOG_INF("Succesfully set advertising data %p for set %p",  pressure_ad ,(void*) ft_adv);  
 
@@ -206,7 +201,6 @@ static void adv_init_task(void)
 						}
 						LOG_INF("Succesfully started advertising set %p", (void*) ft_adv);
 						adv_msg.adv_start = 0;
-						return;
 					}
 					if (adv_msg.flow == 1)
 					{
@@ -215,8 +209,7 @@ static void adv_init_task(void)
 						ret = bt_le_ext_adv_set_data(ft_adv, flow_ad, ARRAY_SIZE(flow_ad), NULL, 0);
 						if (ret !=0 )
 						{
-						LOG_ERR("Failed to set advertiser data (err %d)", ret);
-						return ret;
+							LOG_ERR("Failed to set advertiser data (err %d)", ret);
 						}
 						LOG_INF("Succesfully set advertising data %p for set %p",  flow_ad ,(void*) ft_adv);  
 
@@ -227,14 +220,12 @@ static void adv_init_task(void)
 						}
 						LOG_INF("Succesfully started advertising set %p", (void*) ft_adv);
 						adv_msg.adv_start = 0;
-						return;
 					}
-					return;
+				}
 			}
 			if (adv_msg.adv_update == 1)
 			{
 				LOG_INF("Sensor input has changed state");
-
 				advertising_packet.sensor_packet.pto_packet.pto_left_io = adv_msg.sensor_state;
 
 				if (adv_msg.pto == 1)
@@ -244,7 +235,6 @@ static void adv_init_task(void)
 					if (ret !=0 )
 					{
 						LOG_ERR("Failed to set advertiser data (err %d)", ret);
-						return ret;
 					}
 					LOG_INF("Succesfully set advertising data %p for set %p",  pto_ad ,(void*) ft_adv);  
 
@@ -255,15 +245,11 @@ static void adv_init_task(void)
 					// }
 					// LOG_INF("Succesfully started advertising set %p", (void*) ft_adv);
 					// adv_msg.adv_start = 0;
-					return;
+					adv_msg.adv_update = 0;
 				}
-				return;
+				adv_msg.adv_update = 0;
 			}
-			return;
 		}
-		return;
-		}
-	return;
 	}
 }
 K_THREAD_DEFINE(adv_init_id, 1024, adv_init_task, NULL, NULL, NULL, 3, 0, 0);
