@@ -35,26 +35,27 @@ static struct advertise_msg adv_msg =
     .adv_start = 0,
     .adv_stop = 0,
     .adv_update = 0,
-    // .adv_stop = 0,
-    // .pto = 0,
-    // .pressure = 0,
-    // .flow = 0,
+    .adv_stop = 0,
+    .pto = 0,
+    .pressure = 0,
+    .flow = 0,
     .sensor_state = 0
 };
 
 void pto_callback(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
-    // uint8_t pto_state;
-
     LOG_INF("PTO callback");
 
+    adv_msg.adv_config = 0;
+    adv_msg.adv_start = 0;
+    adv_msg.adv_update = 1;
     adv_msg.sensor_state = gpio_pin_get_dt(&pto_sensor_pin);
+    
 
     LOG_INF("adv_msg.sensor_state from gpio setup task = %d", adv_msg.sensor_state);
 
     zbus_chan_pub(&ble_chan, &adv_msg, K_NO_WAIT);
     // zbus_chan_notify(&ble_chan, K_NO_WAIT);
-
 }
 
 void gpio_handler(struct k_work *work)

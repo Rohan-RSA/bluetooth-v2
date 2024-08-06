@@ -105,7 +105,7 @@ struct bt_data flow_ad[] =
 	BT_DATA(BT_DATA_NAME_COMPLETE, "FT_FLOW", sizeof("FT_FLOW")),
 };
 
-ZBUS_SUBSCRIBER_DEFINE(adv_init_sub, 7);
+ZBUS_SUBSCRIBER_DEFINE(adv_init_sub, 4);
 
 static void adv_init_task(void)
 {
@@ -124,8 +124,8 @@ static void adv_init_task(void)
 			LOG_INF("ft_adv is: %d", &ft_adv);
 
 			zbus_chan_read(chan, &adv_msg, K_MSEC(200));
-			LOG_INF("Advertise msg processed by THREAD handler adv_init_sub:\r\nconfig advertising = %d,\r\nstart advertising = %d,\r\nrestart advertising = %d,"
-					"\r\nupdate advertising = %d,\r\nstop advertising = %d\r\nstart advertising = %d,",adv_msg.adv_config, adv_msg.adv_start, adv_msg.adv_update, adv_msg.adv_stop);
+			LOG_INF("Advertise msg processed by THREAD handler adv_init_sub:\r\nconfig advertising = %d,\r\nstart advertising = %d,\r\nupdate advertising = %d,"
+					"\r\nstop advertising = %d,",adv_msg.adv_config, adv_msg.adv_start, adv_msg.adv_update, adv_msg.adv_stop);
 			LOG_INF("Sensor type processed by THREAD handler adv_init_sub:\r\npto = %d,\r\npressure = %d,\r\nflow = %d",
 					adv_msg.pto, adv_msg.pressure, adv_msg.flow);
 			LOG_INF("Sensor input = %d", adv_msg.sensor_state);
@@ -222,6 +222,7 @@ static void adv_init_task(void)
 						adv_msg.adv_start = 0;
 					}
 				}
+			adv_msg.adv_start = 0;
 			}
 			if (adv_msg.adv_update == 1)
 			{
@@ -248,6 +249,7 @@ static void adv_init_task(void)
 					adv_msg.adv_update = 0;
 				}
 				adv_msg.adv_update = 0;
+				LOG_INF("adv_msg.adv_upate has been reset to %d after the adv set was updated", adv_msg.adv_update);
 			}
 		}
 	}
