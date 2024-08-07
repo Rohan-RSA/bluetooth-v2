@@ -1,1 +1,0 @@
-target_sources(app PRIVATE ble_init_task.c)

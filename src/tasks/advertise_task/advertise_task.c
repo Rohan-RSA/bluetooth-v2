@@ -119,7 +119,9 @@ static void adv_init_task(void)
 		{
 			int ret;
 			static struct bt_le_ext_adv *ft_adv;
-			// static struct advertise_msg adv_msg;
+			char addr_s[BT_ADDR_LE_STR_LEN];
+			bt_addr_le_t addr = {0};		
+			size_t count = 1;
 
 			LOG_INF("ft_adv is: %d", &ft_adv);
 
@@ -180,7 +182,11 @@ static void adv_init_task(void)
 						{
 							LOG_ERR("Failed to start advertising set %p with error code %d", (void*) ft_adv, ret);
 						}
-						LOG_INF("Succesfully started advertising set %p", (void*) ft_adv);
+
+						bt_id_get(&addr, &count);
+						bt_addr_le_to_str(&addr, addr_s, sizeof(addr_s));
+
+						LOG_INF("Succesfully started advertising set %p and with MAC address %s", (void*) ft_adv, addr_s);
 						adv_msg.adv_start = 0;
 					}
 					if (adv_msg.pressure == 1)
@@ -199,7 +205,11 @@ static void adv_init_task(void)
 						{
 							LOG_ERR("Failed to start advertising set %p with error code %d", (void*) ft_adv, ret);
 						}
-						LOG_INF("Succesfully started advertising set %p", (void*) ft_adv);
+
+						bt_id_get(&addr, &count);
+						bt_addr_le_to_str(&addr, addr_s, sizeof(addr_s));
+
+						LOG_INF("Succesfully started advertising set %p and with MAC address %s", (void*) ft_adv, addr_s);
 						adv_msg.adv_start = 0;
 					}
 					if (adv_msg.flow == 1)
@@ -218,7 +228,11 @@ static void adv_init_task(void)
 						{
 							LOG_ERR("Failed to start advertising set %p with error code %d", (void*) ft_adv, ret);
 						}
-						LOG_INF("Succesfully started advertising set %p", (void*) ft_adv);
+						
+						bt_id_get(&addr, &count);
+						bt_addr_le_to_str(&addr, addr_s, sizeof(addr_s));
+
+						LOG_INF("Succesfully started advertising set %p and with MAC address %s", (void*) ft_adv, addr_s);
 						adv_msg.adv_start = 0;
 					}
 				}

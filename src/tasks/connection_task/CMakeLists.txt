@@ -1,0 +1,1 @@
+target_sources(app PRIVATE connection_task.c)

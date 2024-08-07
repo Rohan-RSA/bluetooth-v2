@@ -29,7 +29,9 @@
         "buf.h": "c",
         "iterable_sections.h": "c",
         "settings_priv.h": "c",
-        "ble_init_task.h": "c"
+        "ble_init_task.h": "c",
+        "settings.h": "c",
+        "connection_task.h": "c"
     },
     "cmake.configureOnOpen": false,
     "nrf-connect.debugging.bindings": {

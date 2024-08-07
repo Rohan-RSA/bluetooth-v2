@@ -7,7 +7,7 @@
 
 #include "gpio_setup_task.h"
 #include "advertise_task/advertise_task.h"
-#include "ble_init_task/ble_init_task.h"
+#include "connection_task/connection_task.h"
 
 #define LOG_MODULE_NAME gpio_setup_task
 

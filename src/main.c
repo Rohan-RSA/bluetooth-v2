@@ -17,25 +17,29 @@
 #include <zephyr/device.h>
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/gpio.h>
+#include <zephyr/settings/settings.h>
 // #include <zephyr/drivers/led.h>
 #include <zephyr/logging/log.h>
+
 #include <zephyr/pm/pm.h>
 #include <zephyr/pm/device.h>
 #include <zephyr/pm/device_runtime.h>
 #include <zephyr/pm/state.h>
+
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/bluetooth/uuid.h>
 #include <zephyr/bluetooth/gatt.h>
 #include <zephyr/bluetooth/gap.h>
 #include <zephyr/bluetooth/hci.h>
 #include <zephyr/bluetooth/conn.h>
+
 #include <zephyr/sys/util_macro.h>
 #include <zephyr/zbus/zbus.h>
 
 #include <led_task/led_task.h>
 #include <gpio_setup_task/gpio_setup_task.h>
 #include <advertise_task/advertise_task.h>
-#include <ble_init_task/ble_init_task.h>
+#include <connection_task/connection_task.h>
 
 #define PRIORITY        7
 #define STACK_SIZE      2048
@@ -88,13 +92,13 @@ ZBUS_CHAN_DEFINE(ble_chan,
                 ZBUS_MSG_INIT(0)
 );
 
-// ZBUS_CHAN_DEFINE(ble_init_chan,
-//                 struct ble_init_msg,
-//                 NULL,
-//                 NULL,
-//                 ZBUS_OBSERVERS(ble_init_sub),
-//                 ZBUS_MSG_INIT(0)
-// );
+ZBUS_CHAN_DEFINE(ble_chan,
+                struct ble_init_msg,
+                NULL,
+                NULL,
+                ZBUS_OBSERVERS(connection_sub),
+                ZBUS_MSG_INIT(0)
+);
 
 void timer_1s_handler(struct k_timer *timer_1s)
 {
