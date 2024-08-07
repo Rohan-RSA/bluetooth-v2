@@ -51,9 +51,7 @@ void pto_callback(const struct device *dev, struct gpio_callback *cb, uint32_t p
     adv_msg.adv_update = 1;
     adv_msg.sensor_state = gpio_pin_get_dt(&pto_sensor_pin);
     
-
     LOG_INF("adv_msg.sensor_state from gpio setup task = %d", adv_msg.sensor_state);
-
     zbus_chan_pub(&ble_chan, &adv_msg, K_NO_WAIT);
     // zbus_chan_notify(&ble_chan, K_NO_WAIT);
 }
