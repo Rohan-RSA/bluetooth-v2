@@ -12,13 +12,20 @@
 #include <soc.h>
 #include <stdio.h>
 #include <stddef.h>
+#include <string.h>
+
 #include <zephyr/kernel.h>
 #include <zephyr/types.h>
+
+#include <zephyr/sys/ring_buffer.h>
+
 #include <zephyr/device.h>
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/uart.h>
 #include <zephyr/settings/settings.h>
 // #include <zephyr/drivers/led.h>
+
 #include <zephyr/logging/log.h>
 
 #include <zephyr/pm/pm.h>
@@ -92,7 +99,7 @@ ZBUS_CHAN_DEFINE(ble_chan,
                 ZBUS_MSG_INIT(0)
 );
 
-ZBUS_CHAN_DEFINE(ble_chan,
+ZBUS_CHAN_DEFINE(ble_conn_chan,
                 struct ble_init_msg,
                 NULL,
                 NULL,
