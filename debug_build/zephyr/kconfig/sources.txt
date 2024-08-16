@@ -1,3 +1,4 @@
+C:\Projects\Gitlab\Farmtrack\BLE_Tag\bluetooth-v2\Kconfig
 C:\Projects\Gitlab\Farmtrack\BLE_Tag\bluetooth-v2\debug_build\Kconfig\Kconfig.dts
 C:\Projects\Gitlab\Farmtrack\BLE_Tag\bluetooth-v2\debug_build\Kconfig\Kconfig.modules
 C:\Projects\Gitlab\Farmtrack\BLE_Tag\bluetooth-v2\debug_build\Kconfig\Kconfig.shield
@@ -367,7 +368,6 @@ C:\ncs\v2.7.0-rc2\nrfxlib\nrf_modem\Kconfig
 C:\ncs\v2.7.0-rc2\nrfxlib\nrf_rpc\Kconfig
 C:\ncs\v2.7.0-rc2\nrfxlib\openthread\Kconfig
 C:\ncs\v2.7.0-rc2\nrfxlib\zboss\Kconfig
-C:\ncs\v2.7.0-rc2\zephyr\Kconfig
 C:\ncs\v2.7.0-rc2\zephyr\Kconfig.zephyr
 C:\ncs\v2.7.0-rc2\zephyr\arch\Kconfig
 C:\ncs\v2.7.0-rc2\zephyr\arch\Kconfig.v2

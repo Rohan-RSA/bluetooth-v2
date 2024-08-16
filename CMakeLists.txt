@@ -7,6 +7,8 @@ project(ft_ble)
 target_sources(app PRIVATE src/main.c)
 
 add_subdirectory(src/tasks)
+add_subdirectory(src/services)
 
 include_directories(src/)
 include_directories(src/tasks)
+include_directories(src/services)

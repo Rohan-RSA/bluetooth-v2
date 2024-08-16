@@ -43,10 +43,12 @@
 #include <zephyr/sys/util_macro.h>
 #include <zephyr/zbus/zbus.h>
 
+// Custom header files
 #include <led_task/led_task.h>
 #include <gpio_setup_task/gpio_setup_task.h>
 #include <advertise_task/advertise_task.h>
 #include <connection_task/connection_task.h>
+#include <services/uart/uart.h>
 
 #define PRIORITY        7
 #define STACK_SIZE      2048
@@ -68,17 +70,17 @@ struct led_msg led_task =
 	.errorAction = 0
 };
 
-// struct ble_init_msg ble_init_task =
-// {
-// 	.init = true
-// };
-
 struct advertise_msg advertise_task = 
 {
 	.adv_config = 1,
 	.adv_start = 0,
 	.adv_stop = 0,
 	.adv_update = 0
+};
+
+struct uart_msg uart_service =
+{
+	.init = true
 };
 
 struct wq_info wq_led_handler1 = {.handle = 1};
@@ -107,6 +109,14 @@ ZBUS_CHAN_DEFINE(ble_conn_chan,
                 ZBUS_MSG_INIT(0)
 );
 
+ZBUS_CHAN_DEFINE(uart_chan,
+                struct uart_msg,
+                NULL,
+                NULL,
+                ZBUS_OBSERVERS(uart_sub),
+                ZBUS_MSG_INIT(0)
+);
+
 void timer_1s_handler(struct k_timer *timer_1s)
 {
 	zbus_chan_pub(&led_chan, &led_task, K_NO_WAIT);
@@ -131,6 +141,14 @@ int main(void)
 	k_work_submit(&rotary_worker);
 
 	k_work_init(&wq_led_handler1.work, wq_led_cb);
+
+	// init uart here?
+	ret = zbus_chan_pub(&uart_chan, &uart_service, K_MSEC(200));
+	if (ret != 0)
+	{
+		LOG_ERR("Could not publish to uart channel");
+		return 0;
+	}
 
 	ret = zbus_chan_pub(&led_chan, &led_task, K_MSEC(200));
 	if (ret != 0)

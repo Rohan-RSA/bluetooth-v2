@@ -69,6 +69,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/subsys/uart_async_adapter/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/subsys/suit/cmake_install.cmake")
 endif()
 

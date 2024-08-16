@@ -1,0 +1,13 @@
+source "Kconfig.zephyr"
+
+menu "Bluetooth-V2 Kconfig Menu"
+
+config UART_BUFFER_SIZE
+    int "UART payload buffer element size"
+    default 64
+    help
+      Size of the payload biffer in each RX and TX ,FIFO or Ring buffer, element
+
+
+
+endmenu

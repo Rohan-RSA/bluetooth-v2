@@ -31,7 +31,11 @@
         "settings_priv.h": "c",
         "ble_init_task.h": "c",
         "settings.h": "c",
-        "connection_task.h": "c"
+        "connection_task.h": "c",
+        "ring_buffer.h": "c",
+        "uart_async_adapter.h": "c",
+        "uart.h": "c",
+        "gatt.h": "c"
     },
     "cmake.configureOnOpen": false,
     "nrf-connect.debugging.bindings": {

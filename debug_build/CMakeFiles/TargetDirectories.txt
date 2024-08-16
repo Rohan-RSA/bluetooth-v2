@@ -270,6 +270,8 @@ C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/subsys
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/subsys/shell/CMakeFiles/rebuild_cache.dir
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/subsys/debug/CMakeFiles/edit_cache.dir
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/subsys/debug/CMakeFiles/rebuild_cache.dir
+C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/subsys/uart_async_adapter/CMakeFiles/edit_cache.dir
+C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/subsys/uart_async_adapter/CMakeFiles/rebuild_cache.dir
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/subsys/suit/CMakeFiles/edit_cache.dir
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/subsys/suit/CMakeFiles/rebuild_cache.dir
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/modules/nrf/subsys/suit/provisioning/CMakeFiles/edit_cache.dir
@@ -428,3 +430,7 @@ C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/tasks/advertis
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/tasks/advertise_task/CMakeFiles/rebuild_cache.dir
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/tasks/connection_task/CMakeFiles/edit_cache.dir
 C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/tasks/connection_task/CMakeFiles/rebuild_cache.dir
+C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/services/CMakeFiles/edit_cache.dir
+C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/services/CMakeFiles/rebuild_cache.dir
+C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/services/uart/CMakeFiles/edit_cache.dir
+C:/Projects/Gitlab/Farmtrack/BLE_Tag/bluetooth-v2/debug_build/src/services/uart/CMakeFiles/rebuild_cache.dir

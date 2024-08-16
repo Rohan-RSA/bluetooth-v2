@@ -31,6 +31,11 @@ static void connection_task(void)
 		if (&ble_chan == chan)
 		{
 			LOG_INF("Entered connection_task");
+
+
+
+
+
 		}
 		
 
