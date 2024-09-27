@@ -16,9 +16,6 @@
 
 #include <zephyr/kernel.h>
 #include <zephyr/types.h>
-
-#include <zephyr/sys/ring_buffer.h>
-
 #include <zephyr/device.h>
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/gpio.h>

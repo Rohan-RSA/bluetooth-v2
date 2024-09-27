@@ -6,88 +6,125 @@
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/uart.h>
 #include <uart_async_adapter.h>
-#include <zephyr/sys/ring_buffer.h>
+#include <stdio.h>
+#include <stddef.h>
+#include <zephyr/types.h>
+#include "uart.h"
+
+
+ZBUS_CHAN_DECLARE(uart_chan);
+/* Define the handler thread and its' message queue size */
+ZBUS_SUBSCRIBER_DEFINE(uart_sub, 4);
 
 /* Defined in Kconfig menu */
-#define UART_RING_BUF_DATA CONFIG_UART_BUFFER_SIZE
+#define UART_BUF_DATA CONFIG_UART_BUFFER_SIZE
 
 #define LOG_MODULE_NAME uart_service
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
-ZBUS_CHAN_DECLARE(uart_chan);
+#define UART_DEVICE_NODE DT_CHOSEN(zephyr_shell_uart)
+#define MSG_SIZE	32
 
-/* Define the handler thread and its' message queue size */
-ZBUS_SUBSCRIBER_DEFINE(uart_sub, 4);
+/* queue to store up to 10 messages (aligned to 4-byte boundary) */
+K_MSGQ_DEFINE(uart_msgq, MSG_SIZE, 10, 4);
 
 /* Get the uart device that I want to use */
-static const struct device *uart = DEVICE_DT_GET(DT_NODELABEL(uart0));
+static const struct device *const uart_dev = DEVICE_DT_GET(UART_DEVICE_NODE);
 
-/* Create an uart async adaptor instance */
-UART_ASYNC_ADAPTER_INST_DEFINE(async_adapter);
+/* receive buffer used in UART ISR callback */
+static char rx_buf[MSG_SIZE];
+static int rx_buf_pos;
 
-/* Compile time macro for declaring a ring buffer for use with raw bytes */
-RING_BUF_DECLARE(uart_ring_buf, UART_RING_BUF_DATA);
-
-/* Run time declaration of ring buffer */
-// struct uart_ring_buffer
-// {
-//     struct ring_buf rb;
-//     uint32_t buffer[UART_RING_BUF_DATA]
-// };
-// struct uart_ring_buffer uart_buffer;
-
-
-/**
- * @brief Test if peripheral can do async api
- * 
- * @param dev Device pointer that points to the peripheral
- */
-static bool uart_test_async_api(const struct device *dev);
-static bool uart_test_async_api(const struct device *dev)
+void serial_cb(const struct device *dev, void *user_data)
 {
-	const struct uart_driver_api *api =
-        (const struct uart_driver_api *)dev->api;
+	uint8_t c;
 
-	return (api->callback_set != NULL);
+	if (!uart_irq_update(uart_dev)) {
+		return;
+	}
+
+	if (!uart_irq_rx_ready(uart_dev)) {
+		return;
+	}
+
+	/* read until FIFO empty */
+	while (uart_fifo_read(uart_dev, &c, 1) == 1) {
+		if ((c == '\n' || c == '\r') && rx_buf_pos > 0) {
+			/* terminate string */
+			rx_buf[rx_buf_pos] = '\0';
+
+			/* if queue is full, message is silently dropped */
+			k_msgq_put(&uart_msgq, &rx_buf, K_NO_WAIT);
+
+			/* reset the buffer (it was copied to the msgq) */
+			rx_buf_pos = 0;
+		} else if (rx_buf_pos < (sizeof(rx_buf) - 1)) {
+			rx_buf[rx_buf_pos++] = c;
+		}
+		/* else: characters beyond buffer size are dropped */
+	}
 }
 
-/**
- * @brief Handler thread for the UART service
- * 
- * @param void No input param
+/*
+ * Print a null-terminated string character by character to the UART interface
  */
+void print_uart(char *buf)
+{
+	int msg_len = strlen(buf);
+
+	for (int i = 0; i < msg_len; i++) {
+		uart_poll_out(uart_dev, buf[i]);
+	}
+}
+
 static void uart_service(void)
 {
     const struct zbus_channel *chan;
 
+
     while (!zbus_sub_wait(&uart_sub, &chan, K_FOREVER))
     {
-        LOG_INF("Entered uart_service! Testing if the async adapter works...");
+        LOG_INF("Entered uart_service!");
 
-        int ret;
-        int pos;
-        struct uart_data_t *rx;
-        struct uart_data_t *tx;
+		char tx_buf[MSG_SIZE];
+		
+		if (!device_is_ready(uart_dev))
+		{
+			LOG_ERR("UART device not found");
+			return 0;
+		}
 
-        if (!device_is_ready(uart))
-        {
-            return -ENODEV;
-	    }
-        if (!uart_test_async_api(uart))
-        {
-            /* Implement API adapter */
-            uart_async_adapter_init(async_adapter, uart);
-            uart = async_adapter;
-        }
-        LOG_INF("Success. Async API adapter works");
+		/* Configure interrupt and callback to receive data */
+		int ret = uart_irq_callback_user_data_set(uart_dev, serial_cb, NULL);
 
-        // rx
+		if (ret < 0)
+		{
+			if (ret == -ENOTSUP)
+			{
+				LOG_ERR("Interrupt-driven UArt API support not enabled");
+			}
+			else if (ret == -ENOSYS)
+			{
+				LOG_ERR("UART device does not support interrupt-driven API");
+			}
+			else LOG_ERR("Error settting UART callback: %d", ret);
 
+			return 0;			
+		}
+
+		uart_irq_rx_enable(uart_dev);
+		print_uart("Testing if uart is working?\r\n");
+		print_uart("Enter something and press enter:\r\n");
+		
         
+		/* indefinitely wait for input from the user */
+		while (k_msgq_get(&uart_msgq, &tx_buf, K_FOREVER) == 0) {
+			print_uart("Echo: ");
+			print_uart(tx_buf);
+			print_uart("\r\n");
+		}
+		return 0;
+		
     }
-    
-
-
 }
-K_THREAD_DEFINE(uart_service_id, 1024, uart_service, NULL, NULL, NULL, 2, 0, 0);
-
+K_THREAD_DEFINE(uart_service_id, 1024, uart_service, NULL, NULL, NULL, 1, 0, 0);

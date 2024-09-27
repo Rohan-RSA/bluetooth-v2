@@ -35,7 +35,8 @@
         "ring_buffer.h": "c",
         "uart_async_adapter.h": "c",
         "uart.h": "c",
-        "gatt.h": "c"
+        "gatt.h": "c",
+        "memory.h": "c"
     },
     "cmake.configureOnOpen": false,
     "nrf-connect.debugging.bindings": {

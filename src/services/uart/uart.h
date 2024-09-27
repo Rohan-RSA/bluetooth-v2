@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <zephyr/types.h>
 
-#define UART_RING_BUF_SIZE CONFIG_UART_BUFFER_SIZE
+#define UART_BUF_SIZE CONFIG_UART_BUFFER_SIZE
 
 static struct uart_msg
 {
@@ -12,11 +12,7 @@ static struct uart_msg
 
 struct uart_data_t
 {
-    void *ring_reserved;
-    uint8_t data[UART_RING_BUF_SIZE];
+    void *fifo_reserved;
+    uint8_t data[UART_BUF_SIZE];
     uint16_t len;
 };
-
-
-
-
